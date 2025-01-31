@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+    --bg-color: #383838;
+    --bg-color-lighter: #454545;
+    --blue: #a8c7fa;
+    --blue-darker: #3c609d; 
+}
+
+.mode-dark {
+    background-color: var(--bg-color);
+    color: white;
+}
