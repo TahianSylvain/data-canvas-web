@@ -6,7 +6,18 @@
     --bg-color: #383838;
     --bg-color-lighter: #454545;
     --blue: #a8c7fa;
-    --blue-darker: #3c609d; 
+    --blue-darker: #3c609d;
+
+    --font-size: 14px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", "Noto", sans-serif;
+    font-size: var(--font-size);
 }
 
 .mode-dark {
