@@ -1,0 +1,38 @@
+.input {
+    width: 100%;
+
+    border-bottom-style: solid ;
+    border-bottom-width: 2px ;
+    border-bottom-color: inherit;
+
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
+    background-color: var(--bg-color-lighter);
+    padding: .7em 1em;
+    padding-bottom: 0;
+}
+
+.input > .input-label {
+    font-size: .9rem;
+    opacity: .5;
+    display: block;
+}
+
+.input > .input-self{
+    border: none;
+    width: 100%;
+    padding: .3em 0;
+
+    background-color: inherit;
+    font-size: 1.1rem;
+}
+
+.input > .input-self:focus {
+    outline: none;
+}
+
+.input-checkbox {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+}
