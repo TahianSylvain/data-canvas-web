@@ -1,4 +1,5 @@
 import "./buttons.css"
+import Link from "next/link"
 
 export default function Button({children, color="", icon="", style="", href=""}){
 
@@ -17,9 +18,9 @@ export default function Button({children, color="", icon="", style="", href=""})
     
     // If href not null <a> else <button>
     if (href) {
-        return <a href={href} className={class_name}>
+        return <Link href={href} className={class_name}>
             {btn_content}
-        </a>
+        </Link>
     } else {
         return <button className={class_name}>
             {btn_content}
