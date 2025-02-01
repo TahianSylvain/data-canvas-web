@@ -1,6 +1,6 @@
 import "./buttons.css"
 
-export default function Button({children, color="", style="", href=""}){
+export default function Button({children, color="", icon="", style="", href=""}){
 
 
     const c = color ? " btn-" + color : ""
@@ -9,7 +9,7 @@ export default function Button({children, color="", style="", href=""}){
     const class_name = "btn" + c + t
 
     const btn_content = <>
-        <span></span>
+        <span className="btn-icon material-icons-round">{icon}</span>
         <span>
             {children}
         </span>

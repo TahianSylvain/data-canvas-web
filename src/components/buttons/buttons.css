@@ -2,8 +2,15 @@
     padding: .4rem 1rem;
     border-radius: 1rem;
     font-weight: bold;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
 }
+
+.btn-icon {
+    position: relative;
+    right: 0.25em;
+}
+
 
 .btn:hover {
     background-color: var(--bg-color-lighter);

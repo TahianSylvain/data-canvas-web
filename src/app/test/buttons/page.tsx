@@ -62,7 +62,34 @@ export default function TestButtons() {
             </div>
         </div>
         {/* -- END LINKS -- */}
-        
+
+        {/* -- BUTTONS WITH ICONS -- */}
+        <div>
+            <h2 className="text-3xl mb-2">Buttons with google rounded material icon</h2>
+            <div className="flex gap-4">
+                <div className="flex flex-col items-center">
+                    <p className="text-xs font-thin mb-2">.btn</p>
+                    <Button icon="home">button</Button>
+                </div>
+                <div className="flex flex-col items-center">
+                    <p className="text-xs font-thin mb-2">.btn.btn-primary</p>
+                    <Button icon="add" color="primary">button</Button>
+                </div>
+                <div className="flex flex-col items-center">
+                    <p className="text-xs font-thin mb-2">.btn.btn-type-fill</p>
+                    <Button icon="close" style="fill">button</Button>
+                </div>
+                <div className="flex flex-col items-center">
+                    <p className="text-xs font-thin mb-2">.btn.btn-type-border</p>
+                    <Button icon="menu" style="border">button</Button>
+                </div>
+                <div className="flex flex-col items-center">
+                    <p className="text-xs font-thin mb-2">.btn .btn-primary .btn-type-border</p>
+                    <Button icon="drag_indicator" color="primary" style="border">button</Button>
+                </div>
+            </div>
+        </div>
+        {/* -- END BUTTONS -- */}
     </div>
 
 }
