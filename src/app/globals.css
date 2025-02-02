@@ -50,3 +50,8 @@ body, * {
     background-color: var(--bg-color);
     color: var(--color);
 }
+
+a {
+    font-weight: bold;
+    color: var(--blue)
+}

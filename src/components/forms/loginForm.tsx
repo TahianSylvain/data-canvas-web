@@ -6,8 +6,8 @@ import { FormTextInput } from "../inputs/formInputs"
 
 export default function LoginForm() {
     return <div className="login-form-container login-form-container-color">
-        <div className="text-4xl">
-            LOGO
+        <div className="text-4xl font-extrabold text-blue-300">
+            DC
         </div>
         <form action="" className="mt-2">
             <div className="login-form-content grid grid-cols-1 sm:grid-cols-2">
