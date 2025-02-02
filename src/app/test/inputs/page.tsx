@@ -1,3 +1,4 @@
+import { FormTextInput } from "@/components/inputs/formInputs";
 import { CheckboxInput, SelectInput, TextInput } from "@/components/inputs/Inputs";
 
 export default function TestInputs() {
@@ -21,5 +22,17 @@ export default function TestInputs() {
             </div>
         </div>
         {/* -- END INPUTS -- */}
+
+        {/* -- FORM INPUTS -- */}
+        <div>
+            <h2 className="text-3xl mb-2">Form inputs</h2>
+            <div className="gap-4">
+                <div className="flex flex-col">
+                    <p className="text-xs font-thin mb-2">Form input text</p>
+                    <FormTextInput placeholder={"Nom (facultatif)"} name={"name"}/>
+                </div>
+            </div>
+        </div>
+        {/* -- FORM INPUTS -- */}
     </div>
 }

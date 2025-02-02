@@ -1,17 +1,17 @@
 import Button from "../buttons/buttons"
 import "./forms.css"
 import Link from "next/link"
-import { TextInput } from "../inputs/Inputs"
+import { FormTextInput } from "../inputs/formInputs"
 
 
 export default function LoginForm() {
-    return <div className="login-form-container">
+    return <div className="login-form-container login-form-container-color">
         <div className="text-4xl">
             LOGO
         </div>
         <form action="" className="mt-2">
             <div className="login-form-content grid grid-cols-1 sm:grid-cols-2">
-                <div className="flex flex-col gap-3 mb-3">
+                <div className="flex flex-col gap-3 mb-8">
                     <div>
                         <h1 className="text-3xl">Connexion</h1>
                     </div>
@@ -22,7 +22,7 @@ export default function LoginForm() {
                 <div>
                     <div className="mb-7">
                         <div>
-                            <TextInput name={"email"} placeholder={"Adresse e-mail ou téléphone"}></TextInput>
+                            <FormTextInput name={"email"} placeholder={"Adresse e-mail ou téléphone"}></FormTextInput>
                         </div>
                         <Link href="#">Adresse e-mail oubliée ?</Link>
                     </div>
