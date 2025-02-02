@@ -1,7 +1,18 @@
 .login-form-container {
     max-width: 920px;
     border-radius: 28px;
-    padding: 3em;
+    
+}
+
+.login-form-container > .login-form-logo {
+    padding-left: 4rem;
+    padding-top: 2rem
+}
+
+.login-form-container > form {
+    min-height: 300px;
+    padding: 4rem;
+    padding-top: 0;
 }
 
 .login-form-container-color {
