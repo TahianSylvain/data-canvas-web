@@ -31,10 +31,10 @@ export default function SignupForm() {
                             <FormTextInput name={"email"} placeholder={"Adresse e-mail"}></FormTextInput>
                         </div>
                         <div className="mb-7">
-                            <FormTextInput name={"password"} placeholder={"Mot de passe"}></FormTextInput>
+                            <FormTextInput name={"password"} placeholder={"Mot de passe"} type="password"></FormTextInput>
                         </div>
                         <div>
-                            <FormTextInput name={"confirm"} placeholder={"Confirmer votre mot de passe"}></FormTextInput>
+                            <FormTextInput name={"confirm"} placeholder={"Confirmer votre mot de passe"} type="password"></FormTextInput>
                         </div>
                     </div>
                 </div>
