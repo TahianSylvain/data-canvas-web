@@ -10,7 +10,7 @@ export default function SignupForm() {
             DC
         </div>
         <form action="" className="flex flex-grow flex-col justify-between">
-            <div className="login-form-content grid grid-cols-1 sm:grid-cols-2 mt-5">
+            <div className="login-form-content grid grid-cols-1 sm:grid-cols-2 mt-5 gap-7">
                 <div className="flex flex-col gap-3 mb-8">
                     <div>
                         <h1 className="text-3xl">Créer un compte DataCanvas</h1>
