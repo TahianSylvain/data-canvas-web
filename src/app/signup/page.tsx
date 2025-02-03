@@ -1,3 +1,7 @@
+import SignupForm from "@/components/forms/signupForm"
+
 export default function Signup(){
-    return <span>Je suis la page <b>SIGNUP</b></span>
+    return <div className="flex justify-center items-center h-screen">
+        <SignupForm></SignupForm>
+    </div> 
 }
