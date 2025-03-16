@@ -6,11 +6,18 @@
     align-items: center;
 }
 
+.btn-textless {
+    padding: 0;
+}
+
 .btn-icon {
     position: relative;
     right: 0.25em;
 }
 
+.btn-icon-textless {
+    right: 0
+}
 
 .btn:hover {
     background-color: var(--bg-color-lighter);
@@ -34,4 +41,9 @@
     border-color: inherit;
     border-style: solid;
     border-width: 1px;
+}
+
+.material-icons-round-textless {
+    font-size: 20px;
+    line-height: 1.75rem;
 }
