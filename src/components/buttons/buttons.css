@@ -16,7 +16,9 @@
 }
 
 .btn-icon-textless {
-    right: 0
+    right: 0;
+    width: 28px;
+    height: 28px;
 }
 
 .btn:hover {

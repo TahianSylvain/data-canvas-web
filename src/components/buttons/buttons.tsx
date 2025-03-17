@@ -6,23 +6,23 @@ interface ButtonProps {
     children?: React.ReactNode,
     color?: string,
     icon?: string,
-    style?: string,
+    style?: "border" | "fill",
     href?: string,
     additionalCSS?: string
 }
 
-export default function Button({children, color="", icon="", style="", href="", additionalCSS=""} : ButtonProps){
+export default function Button({children, color, icon, style, href, additionalCSS=""} : ButtonProps){
     // additionalCSS: to override the actual hardcoded CSS built into "./buttons.css"
 
     const c = color ? " btn-" + color : ""
     const t = style ? " btn-style-" + style : ""
 
     const hasChildren = children ? true : false
-    const buttonRectifierCSS = hasChildren ? null : "btn-textless"
-    const iconRectifierCSS = hasChildren ? null : "btn-icon-textless"
-    const materialRectifierCSS = hasChildren ? null : "material-icons-round-textless"
+    const buttonRectifierCSS = hasChildren ? "" : "btn-textless"
+    const iconRectifierCSS = hasChildren ? "" : "btn-icon-textless"
+    const materialRectifierCSS = hasChildren ? "" : "material-icons-round-textless"
     
-    const class_name = "btn " + c + t + additionalCSS + buttonRectifierCSS
+    const class_name = "btn " + c + t + buttonRectifierCSS + additionalCSS
 
     const btn_content = <>
         {/* <span className="btn-icon material-icons-round">{icon}</span> */}
