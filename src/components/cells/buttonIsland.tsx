@@ -1,8 +1,9 @@
 import Button from "../buttons/buttons"
+import "tailwindcss"
 
 export default function ButtonIsland() {
     // TODO: ajout border sur le div wrapper et padding de 2 px un peu a gouche a droite
-    return <div className="flex justify-between w-64 h-8">
+    return <div className="flex justify-between w-64 h-8 rounded-lg mode-dark shadow-lg relative right-4 p-1/2">
         {/* This is the div wrapper */}
         <Button icon="arrow_upward"></Button>
         <Button icon="arrow_downward"></Button>
