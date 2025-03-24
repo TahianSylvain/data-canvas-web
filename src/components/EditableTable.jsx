@@ -128,26 +128,32 @@ export default function Spreadsheet() {
     setIsAddingColumn(true);
   };
 
+  const [newColumnOptions, setNewColumnOptions] = useState("");
+
   const handleColumnNameEnter = (e) => {
     if (e.key === "Enter" && newColumnName.trim() !== "") {
       let newCell;
+      let newColumn = {
+        accessorKey: newColumnName.toLowerCase().replace(/\s+/g, "_"),
+        header: newColumnName,
+      };
+  
       if (newColumnType === "text") {
         newCell = EditableCell;
       } else if (newColumnType === "select") {
         newCell = SelectCell;
+        newColumn.options = newColumnOptions.split(",").map((opt) => opt.trim());
       } else if (newColumnType === "date") {
         newCell = DateCell;
       }
-      
-      const newColumn = {
-        accessorKey: newColumnName.toLowerCase().replace(/\s+/g, "_"),
-        header: newColumnName,
-        cell: newCell,
-      };
+  
+      newColumn.cell = newCell;
       setColumns([...columns, newColumn]);
+  
       setData(data.map(row => ({ ...row, [newColumn.accessorKey]: "" })));
       setNewColumnName("");
       setNewColumnType("text");
+      setNewColumnOptions("");
       setIsAddingColumn(false);
     }
   };
@@ -162,6 +168,7 @@ export default function Spreadsheet() {
   };
 
   return (
+    
     <div className="p-4 border rounded-lg shadow-md bg-white">
       <table className="w-full border-collapse border border-gray-300 text-sm text-gray-800">
         <thead>
@@ -194,6 +201,15 @@ export default function Spreadsheet() {
                   <option value="select">Select</option>
                   <option value="date">Date</option>
                 </select>
+                {newColumnType === "select" && (
+                  <input
+                    type="text"
+                    className="w-full px-2 py-1 border rounded mt-1"
+                    value={newColumnOptions}
+                    onChange={(e) => setNewColumnOptions(e.target.value)}
+                    placeholder="Options (comma separated)"
+                  />
+                )}
               </th>
             )}
           </tr>
