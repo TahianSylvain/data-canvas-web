@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+    --sizeText1: 12px;
+    --sizeText2: 15px;
+}
+.contain_model_test{
+    height: 99vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.data_model{
+    border: 2px solid #6e6e6e;
+    width: 20rem;
+    height: 5.5rem;
+    padding: 10px;
+    border-radius: 6px;
+
+    display: flex;
+    align-items: center;
+}
+.contain_icon{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 3px;
+    background-color: blueviolet;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contain_text_1{
+    padding: 0 0 0 15px;
+}
+.name_base{
+    font-size: var(--sizeText2);
+    letter-spacing: 1px;
+}
+.sous_text{
+    font-size: var(--sizeText1);
+    letter-spacing: 1px;
+    font-weight: lighter;
+    color: #909090;
+}
