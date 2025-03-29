@@ -6,19 +6,19 @@ export default function TestCells () {
 
     return <div className="p-5 flex flex-col gap-2">
         {/* simplement ButtonIsland */}
-        <div>
-            <p>button island / toolbar</p>
+        <div className="relative h-8">
+            <p className="absolute right-72">button island / toolbar</p>
             <ButtonIsland></ButtonIsland>
         </div>
 
         {/* simplement TextEditor */}
-        <div>
+        <div className="relative h-auto">
             <p>text editor only</p>
             <TextEditor></TextEditor>
         </div>
 
         {/* atambatra amin'izay */}
-        <div>
+        <div className="relative h-auto">
             <p>cell en entier</p>
             <Cell></Cell>
         </div>
