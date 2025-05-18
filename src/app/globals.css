@@ -25,3 +25,21 @@ body, * {
     background-color: var(--bg-color);
     color: var(--color);
 }
+.contain_model_test{
+    height: 99vh;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+.red{
+    background-color: red;
+}
+.blue{
+    background-color: blue;
+}
+.green{
+    background-color: rgb(91, 200, 135);
+}
+
