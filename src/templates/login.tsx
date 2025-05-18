@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image"
 import Link from "next/link"
 import { Card } from "@/components/cards/card"
@@ -13,7 +15,7 @@ export function Login() {
                     <Image src={"/logo.png"} width={110} height={32} alt="logo" />
                 </h1>
             </div>
-            <div className="p-[22px]">
+            <form className="p-[22px]">
                 <div>
                     <h2 className="text-2xl font-semibold mb-4">Login</h2>
                     <Input label="Username" id="username" input_type="text" className="mb-4"/>
@@ -21,9 +23,9 @@ export function Login() {
                 </div>
                 <div className="flex justify-between items-center">
                     <Link href={"/signup"} className="font-semibold">Don't have an account?</Link>
-                    <Button className="px-8 bg-bluePrimary text-white">Login</Button>
+                    <Button className="px-8 bg-bluePrimary text-white" type="submit">Login</Button>
                 </div>
-            </div> 
+            </form> 
         </Card>
     </div>
 }
