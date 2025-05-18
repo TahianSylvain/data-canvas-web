@@ -1,8 +1,7 @@
-import ButtonCreat from "./composant/btn_new/page";
+import Acceuil from "./home/page";
 
 export default function Home() {
   return (
-    <section className="contain_model_test">
-    </section>
+    <Acceuil />
   )
 }
