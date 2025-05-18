@@ -1,3 +1,5 @@
-export default function Signup(){
-    return <span>Je suis la page <b>SIGNUP</b></span>
+import { Signup } from "@/templates/signup";
+
+export default function SignupPage(){
+    return  <Signup /> 
 }

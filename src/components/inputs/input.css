@@ -1,0 +1,13 @@
+.input {
+}
+
+.input > label {
+    
+}
+
+.input > input {
+    display: block;
+    border: solid 1px #C6C6C6;
+    border-radius: 8px;
+    width: 100%;
+}

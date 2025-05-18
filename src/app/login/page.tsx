@@ -1,3 +1,6 @@
-export default function Login(){
-    return <span>Je suis la page <b>LOGIN</b></span>
+import { Login } from "@/templates/login"
+
+export default function LoginPage(){
+    return  <Login /> 
 }
+
