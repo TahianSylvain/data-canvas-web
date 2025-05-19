@@ -13,7 +13,8 @@ export default {
         background: "var(--bg-color)",
         foreground: "var(--fg-color)",
         greenPrimary: "var(--primary-green-color)",
-        bluePrimary: "var(--primary-blue-color)"
+        bluePrimary: "var(--primary-blue-color)",
+		borderColor: "#c6c6c6",
       },
     },
   },
