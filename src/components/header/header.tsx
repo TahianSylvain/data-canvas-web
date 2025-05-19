@@ -15,7 +15,7 @@ export default function Header({children}: PropsType) {
 	}
 
 	return <>
-		<div className="w-full h-max flex items-center justify-between px-6 py-4 border-b border-borderColor">
+		<div className="w-full h-max flex items-center justify-between px-6 py-4 border-b border-borderColor bg-foreground">
 			<div className="flex items-center justify-between gap-8">
 				<button>
 					<FaBars size={24} />
