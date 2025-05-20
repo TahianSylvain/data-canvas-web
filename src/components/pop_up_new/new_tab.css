@@ -1,5 +1,5 @@
 .contain_form_newTab{
-    border: 1px solid black;
+    border: 1px solid rgb(195, 195, 195);
     width: 35rem;
 }
 .contain_text_icon{
@@ -12,4 +12,12 @@
 }
 .inpt_nameTab{
     height: 3.3rem;
+}
+.btn_form_new_tab{
+    width: 7em;
+    margin: 1rem 0 0 0;
+}
+.btn_blue{
+    background-color: rgba(93, 129, 175, 1);
+    color: #fff;
 }

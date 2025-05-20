@@ -38,7 +38,8 @@ export default function FormNewTab() {
                     placeholder="Nom table"
                 />
                 <div className="flex items-center justify-end">
-                    <Button>{'Cancel'}</Button>
+                    <Button className="btn_form_new_tab">{'Cancel'}</Button>
+                    <Button className="btn_blue btn_form_new_tab">{'Create'}</Button>
                 </div>
             </form>
         </div>
