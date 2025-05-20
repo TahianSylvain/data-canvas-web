@@ -1,0 +1,15 @@
+.contain_form_newTab{
+    border: 1px solid black;
+    width: 35rem;
+}
+.contain_text_icon{
+    height: 3rem;
+    padding: 5px;
+}
+.p1{
+    font-size: 12px;
+    font-weight: bold;
+}
+.inpt_nameTab{
+    height: 3.3rem;
+}
