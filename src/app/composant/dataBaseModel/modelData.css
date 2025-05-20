@@ -45,6 +45,6 @@
 .sous_text{
     font-size: var(--sizeText1);
     letter-spacing: 1px;
-    font-weight: bold;
-    color: #9E9E9E;
+    font-weight: bol;
+    color: #909090;
 }
