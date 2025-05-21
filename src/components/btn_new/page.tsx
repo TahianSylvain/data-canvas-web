@@ -1,10 +1,11 @@
 'use client'
+import React from "react";
 import "./button.css";
 
 interface type_data{
     text_btn:string, 
     color: string,
-    handleClick: () => void
+    handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export default function ButtonCreat({text_btn, color, handleClick}:type_data) {

@@ -5,7 +5,11 @@ import ModelData from "../../components/dataBaseModel/page";
 import CreateDatabaseForm from "@/components/createDatabaseForm/page";
 
 export default function Acceuil() {
-    const [visibility, setVisibility] = useState("hidden");
+    // const [visibility, setVisibility] = useState("hidden");
+    const [dataHome, setDataHome] = useState({
+        visibility: 'hidden',
+        nameForm: 'Database'
+    });
 
     const data = {
         text_btn:'New Database',
@@ -38,13 +42,36 @@ export default function Acceuil() {
         type6:'Database',
         // -----------------------
     }
-    const handleClick = ()=>{
-        setVisibility(visibility == 'hidde'? 'show':'hidde')
+    const handleClick = (e)=>{
+        const textContentList = e.target.textContent.split(' ');
+        const _name = textContentList[textContentList.length - 1];
+        
+        
+        if(_name != 'Cancel'){
+            setDataHome(
+                (prev) =>({
+                    nameForm: _name,
+                    visibility: prev.visibility == 'hidde'? 'show':'hidde'
+                })
+                
+            )
+        }else{
+            setDataHome(
+                (prev) =>({
+                    ...prev,
+                    visibility: prev.visibility == 'hidde'? 'show':'hidde'
+                })
+                
+            )
+        }
+        console.log(_name);
+        console.log(dataHome.nameForm);
+        // setVisibility()
     }
 
     return (
         <>
-        <CreateDatabaseForm handleClick={handleClick} visibility = {visibility}></CreateDatabaseForm>
+        <CreateDatabaseForm handleClick={handleClick} visibility = {dataHome.visibility} nameForm={dataHome.nameForm}></CreateDatabaseForm>
         <section className="contain_menu_acceuil">
 
             <section className="contain_sous_menu_acceuil">

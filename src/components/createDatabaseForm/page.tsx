@@ -4,10 +4,11 @@ import { Button } from '../buttons/button';
 
 interface parameter_type{
     visibility:string,
-    handleClick: () => void
+    nameForm: string
+    handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export default function CreateDatabaseForm({visibility, handleClick}:parameter_type) {
+export default function CreateDatabaseForm({visibility,nameForm, handleClick}:parameter_type) {
   const [formData, setFormData] = useState({
     name: '',
     color: '',
@@ -25,6 +26,7 @@ export default function CreateDatabaseForm({visibility, handleClick}:parameter_t
     alert('Database created!');
   };
   const contain_class = `contain_form_creatData ${visibility}`;
+  const placeholder = `Your ${nameForm} name`;
 
   return (
     <section className={contain_class}> 
@@ -32,12 +34,12 @@ export default function CreateDatabaseForm({visibility, handleClick}:parameter_t
         onSubmit={handleSubmit}
         className="max-w-2xl mx-auto bg-white shadow-xl rounded-xl p-8 space-y-6"
         >
-        <h2 className="text-2xl font-bold text-center">Create a Database</h2>
+        <h2 className="text-2xl font-bold text-center">Create a {nameForm}</h2>
 
         {/* Nom */}
         <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-            Database Name
+            {nameForm} Name
             </label>
             <input
                 type="text"
@@ -46,7 +48,7 @@ export default function CreateDatabaseForm({visibility, handleClick}:parameter_t
                     setFormData({ ...formData, name: e.target.value })
                 }
                 className="inpt_size_and_style w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Your database name"
+                placeholder={placeholder}
                 required
             />
         </div>
