@@ -1,23 +1,3 @@
-// import EditableTable from "@/components/EditableTable/EditableTable";
-
-// export default function Spreadsheet() {
-//   return (
-//     <div className="flex min-h-screen">
-//       {/* Barre de menu à gauche */}
-//       <div className="w-64 bg-gray-100 p-4 border-r border-gray-300">
-//         <h2 className="text-lg font-semibold mb-4">Table</h2>
-//         <ul className="space-y-2">
-//           <li><button className="w-full text-left">New Table</button></li>
-//         </ul>
-//       </div>
-
-//       {/* Partie principale : Titre + tableau */}
-//       <div className="flex-1 p-6">
-//         <EditableTable />
-//       </div>
-//     </div>
-//   );
-// }
 'use client';
 import { useState } from "react";
 import { EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
@@ -94,9 +74,11 @@ export default function Spreadsheet() {
 ]);
 
 const [activeTableId, setActiveTableId] = useState(1);
+const [isCreating, setIsCreating] = useState(false);
+const [newTableName, setNewTableName] = useState("");
 
 
-  const createNewTable = () => {
+const createNewTable = () => {
   const newId = tables.length + 1;
   const newTable = {
     id: newId,
@@ -108,6 +90,34 @@ const [activeTableId, setActiveTableId] = useState(1);
   setActiveTableId(newId);
 };
 
+  // Affiche le champ de saisie pour nommer la nouvelle table
+  const startCreatingTable = () => {
+    setNewTableName("");
+    setIsCreating(true);
+  };
+
+  // Valide et crée la table
+  const confirmCreateTable = () => {
+    if (newTableName.trim() === "") {
+      alert("Veuillez saisir un nom pour la table");
+      return;
+    }
+    const newId = tables.length + 1;
+    const newTable = {
+      id: newId,
+      name: newTableName,
+      columns: [],
+      data: [],
+    };
+    setTables([...tables, newTable]);
+    setActiveTableId(newId);
+    setIsCreating(false);
+  };
+
+  // Annule la création (cache le champ)
+  const cancelCreateTable = () => {
+    setIsCreating(false);
+  };
 const deleteTable = (id) => {
   const updated = tables.filter(t => t.id !== id);
   setTables(updated);
@@ -167,12 +177,38 @@ return (
           </li>
         ))}
         <li>
-          <button
-            onClick={createNewTable}
-            className="w-full px-3 py-2 mt-2 bg-green-500 text-white rounded hover:bg-green-600"
-          >
-            New Table
-          </button>
+              {!isCreating ? (
+            <button
+              onClick={startCreatingTable}
+              className="w-full px-3 py-2 mt-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              Nouvelle Table
+            </button>
+          ) : (
+            <div className="mt-2">
+              <input
+                type="text"
+                value={newTableName}
+                onChange={(e) => setNewTableName(e.target.value)}
+                placeholder="Nom de la table"
+                className="border px-2 py-1 rounded w-full"
+              />
+              <div className="flex gap-2 mt-2">
+                <button
+                  onClick={confirmCreateTable}
+                  className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Confirmer
+                </button>
+                <button
+                  onClick={cancelCreateTable}
+                  className="px-3 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          )}
         </li>
       </ul>
     </div>

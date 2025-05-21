@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
 import { EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
 
 const defaultData = [
@@ -48,67 +48,6 @@ const defaultData = [
 
 
 export default function EditableTable({ data, setData, columns, setColumns }) {
-  // const [data, setData] = useState(defaultData);
-
-  // const [columns, setColumns] = useState([
-  //   {
-  //     accessorKey: "launchname",
-  //     header: "Launch name",
-  //     cell: EditableCell,
-  //   },
-  //   {
-  //     accessorKey: "launchdate",
-  //     header: "Launch date",
-  //     cell: DateCell,
-  //   },
-  //   {
-  //     accessorKey: "owner",
-  //     header: "Owner",
-  //     cell: EditableCell,
-  //   },
-  //   {
-  //     accessorKey: "task",
-  //     header: "Task",
-  //     cell: EditableCell,
-  //   },
-  //   {
-  //     accessorKey: "status",
-  //     header: "Status",
-  //     cell: SelectCell,
-  //     options: ["Active", "Inactive", "Pending"],
-  //   },
-  //   {
-  //     accessorKey: "features",
-  //     header: "Features",
-  //     cell: EditableCell,
-  //   },
-  //   {
-  //     accessorKey: "description",
-  //     header: "Description",
-  //     cell: EditableCell,
-  //   },
-  // ]);
-
-  // const table = useReactTable({
-  //   data,
-  //   columns: [
-  //     ...columns,
-  //     {
-  //       id: "actions",
-  //       header: "Actions",
-  //       cell: ({ row }) => (
-  //         <button
-  //           onClick={() => deleteRow(row.original.id)}
-  //           className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-  //         >
-  //           Delete
-  //         </button>
-  //       ),
-  //     },
-  //   ],
-  //   getCoreRowModel: getCoreRowModel(),
-  // });
-
   const addRow = () => {
     const newRow = { id: data.length + 1 };
     columns.forEach((col) => {
