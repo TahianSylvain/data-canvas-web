@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect  } from "react";
 import { flexRender } from "@tanstack/react-table";
 import { EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
 
@@ -48,6 +48,8 @@ const defaultData = [
 
 
 export default function EditableTable({ data, setData, columns, setColumns }) {
+  const [contextMenu, setContextMenu] = useState(null); // {x, y, rowIndex}
+  const contextMenuRef = useRef();
   const addRow = () => {
     const newRow = { id: data.length + 1 };
     columns.forEach((col) => {
@@ -56,8 +58,9 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
     setData([...data, newRow]);
   };
 
-  const deleteRow = (id) => {
-    setData(data.filter((row) => row.id !== id));
+  const deleteRow = (rowIndex) => {
+    setData((prevData) => prevData.filter((_, i) => i !== rowIndex));
+    setContextMenu(null);
   };
 
   const [newColumnName, setNewColumnName] = useState("");
@@ -67,6 +70,17 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
   const addColumn = () => {
     setIsAddingColumn(true);
   };
+
+  // Fermer le menu si on clique ailleurs
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
+        setContextMenu(null);
+      }
+    };
+    window.addEventListener("click", handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const [newColumnOptions, setNewColumnOptions] = useState("");
 
@@ -178,10 +192,14 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
           data.map((row, rowIndex) => (
             <tr
               key={row.id}
+              onContextMenu={(e) => {
+              e.preventDefault();
+              setContextMenu({ x: e.pageX, y: e.pageY, rowIndex });
+              }}
               className={
-                rowIndex % 2 === 0
-                  ? "bg-white hover:bg-gray-100 transition-colors duration-200"
-                  : "bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
+              rowIndex % 2 === 0
+                ? "bg-white hover:bg-gray-100 transition-colors duration-200"
+                : "bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
               }
             >
               {columns.map((col) => (
@@ -218,6 +236,23 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
           Add Column
         </button>
       </div>
+      {contextMenu && (
+        <div
+          ref={contextMenuRef}
+          style={{
+            position: "absolute",
+            top: contextMenu.y,
+            left: contextMenu.x,
+            zIndex: 1000,
+          }}
+          className="bg-white text-red-600 border border-gray-300 shadow-md rounded px-4 py-2 cursor-pointer
+                    hover:bg-red-100 active:bg-red-200
+                    transition-colors duration-150"
+          onClick={() => deleteRow(contextMenu.rowIndex)}
+        >
+          Delete row
+        </div>
+      )}
     </div>
   );
 }
