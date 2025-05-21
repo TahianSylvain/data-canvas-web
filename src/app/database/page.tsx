@@ -116,12 +116,27 @@ const deleteTable = (id) => {
   }
 };
 
-const setTableData = (id, newData) => {
-  setTables(tables.map(t => t.id === id ? { ...t, data: newData } : t));
+const setTableData = (id, updater) => {
+  setTables(prevTables =>
+    prevTables.map(t =>
+      t.id === id
+        ? {
+            ...t,
+            data: typeof updater === "function" ? updater(t.data) : [...updater],
+          }
+        : t
+    )
+  );
 };
 
 const setTableColumns = (id, newCols) => {
-  setTables(tables.map(t => t.id === id ? { ...t, columns: newCols } : t));
+  setTables(prevTables =>
+    prevTables.map(t =>
+      t.id === id
+        ? { ...t, columns: [...newCols] } // ✅ assure un nouveau tableau
+        : t
+    )
+  );
 };
 
 const activeTable = tables.find(t => t.id === activeTableId);

@@ -133,12 +133,14 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
 
   const handleColumnNameEnter = (e) => {
     if (e.key === "Enter" && newColumnName.trim() !== "") {
+      const accessorKey = newColumnName.toLowerCase().replace(/\s+/g, "_");
       let newCell;
-      let newColumn = {
-        accessorKey: newColumnName.toLowerCase().replace(/\s+/g, "_"),
+
+      const newColumn = {
+        accessorKey,
         header: newColumnName,
       };
-  
+
       if (newColumnType === "text") {
         newCell = EditableCell;
       } else if (newColumnType === "select") {
@@ -147,16 +149,22 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
       } else if (newColumnType === "date") {
         newCell = DateCell;
       }
-  
+
       newColumn.cell = newCell;
+
+      // ✅ Mise à jour propre
       setColumns([...columns, newColumn]);
-  
-      setData(data.map(row => ({ ...row, [newColumn.accessorKey]: "" })));
+
+      // ✅ Mise à jour de chaque ligne avec une nouvelle clé
+      setData(data.map(row => ({ ...row, [accessorKey]: "" })));
+
+      // Reset
       setNewColumnName("");
       setNewColumnType("text");
       setNewColumnOptions("");
       setIsAddingColumn(false);
     }
+
   };
 
   const deleteColumn = (accessorKey) => {
@@ -227,7 +235,7 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
       </thead>
 
       <tbody>
-        {data.length > 0 ? (
+        {Array.isArray(data) && data.length > 0 ? (
           data.map((row, rowIndex) => (
             <tr
               key={row.id}
@@ -259,6 +267,7 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
             </td>
           </tr>
         )}
+        
       </tbody>
 
       </table>
