@@ -180,12 +180,38 @@ return (
             </li>
           ))}
           <li>
-            <button
-              onClick={createNewTable}
-              className="w-full px-3 py-2 mt-2 bg-green-500 text-white rounded hover:bg-green-600"
-            >
-              New Table
-            </button>
+            {!isCreating ? (
+                <button
+                  onClick={startCreatingTable}
+                  className="w-full px-3 py-2 mt-2 bg-green-500 text-white rounded hover:bg-green-600"
+                >
+                  New Table
+                </button>
+              ) : (
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    value={newTableName}
+                    onChange={(e) => setNewTableName(e.target.value)}
+                    placeholder="Nom de la table"
+                    className="border px-2 py-1 rounded w-full"
+                  />
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      onClick={confirmCreateTable}
+                      className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                      Confirm
+                    </button>
+                    <button
+                      onClick={cancelCreateTable}
+                      className="px-3 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
           </li>
         </ul>
       </div>
