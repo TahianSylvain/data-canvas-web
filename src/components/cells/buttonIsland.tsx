@@ -1,9 +1,9 @@
-import Button from "../buttons/buttons"
+import Button from "./legacy_buttons/buttons"
 import "tailwindcss"
 
 export default function ButtonIsland() {
 
-    return <div className="flex justify-between w-64 h-8 rounded-lg mode-dark shadow-lg absolute right-4 top-[-18px] p-0.5">
+    return <div className="flex justify-between w-64 h-8 rounded-lg mode-dark shadow-lg absolute right-4 top-[-18px] p-0.5 z-index z-10">
         {/* This is the div wrapper */}
         <Button icon="arrow_upward"></Button>
         <Button icon="arrow_downward"></Button>

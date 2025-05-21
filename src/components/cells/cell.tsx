@@ -1,5 +1,6 @@
 import ButtonIsland from "./buttonIsland";
-import TextEditor from "./textEditor";
+import CodeEditor from "./textEditor";
+import AddButtons from "./addCellButtons"
 
 // TODO: add the little buttnos to add a new cell,
 //     whether for a new programming cell or for a new text Cell.
@@ -7,6 +8,7 @@ import TextEditor from "./textEditor";
 export default function Cell() {
     return <div className="relative flex "> {/* container */ }
         <ButtonIsland ></ButtonIsland>
-        <TextEditor ></TextEditor>
+        <CodeEditor ></CodeEditor>
+        <AddButtons></AddButtons>
     </div>
 }

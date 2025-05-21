@@ -1,4 +1,4 @@
-import Button from "@/components/buttons/buttons"
+import Button from "@/components/cells/legacy_buttons/buttons"
 
 export default function TestButtons() {
 
