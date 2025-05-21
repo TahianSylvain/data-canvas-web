@@ -21,7 +21,7 @@ const CONTENTS = {
 
 export default function Sidebar() {
 	return <>
-		<div className="flex flex-col w-72 h-full py-4 px-5 border-r border-borderColor bg-foreground">
+		<div className="float_sidebar flex flex-col w-72 h-full py-4 px-5 border-r border-borderColor bg-foreground">
 			<div className="flex flex-col mb-2">
 				{CONTENTS.create_section.map((item, id) => {
 					return <button key={id} className="flex items-center gap-3 p-2 px-4">

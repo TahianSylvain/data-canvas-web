@@ -33,10 +33,11 @@ body, * {
 }
 .contain_menu_acceuil{
     width: 100%;
+    padding: 3rem 3rem 0 0;
 
     display: flex;
     flex-flow: column wrap;
-    align-items: center;
+    align-items: flex-end;
 }
 .contain_sous_menu_acceuil{
     width: 70%;
@@ -95,4 +96,37 @@ body, * {
     display: flex;
     flex-flow: wrap;
     justify-content: flex-start;
+}
+.contain_form_creatData{
+    width: 100%;
+    height: 100%;
+    background-color: #0000007a;
+    padding: 1em 0 0 0;
+    position: fixed;
+    top: 0;
+    display: none;
+}
+.show{
+    display: block;
+}
+.hidde{
+    display: none;
+}
+.btn_form_new_tab{
+    width: 7em;
+    margin: 1rem 0 0 0;
+}
+.btn_blue{
+    background-color: rgba(93, 129, 175, 1);
+    color: #fff;
+}
+.inpt_size_and_style{
+    height: 3.3rem;
+    border: 1px solid #C6C6C6;
+    padding: 5px;
+}
+.float_sidebar{
+    position: fixed;
+    left: 0;
+    top: 4.5rem;
 }

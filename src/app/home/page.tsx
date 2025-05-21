@@ -1,9 +1,14 @@
-import ButtonCreat from "../composant/btn_new/page";
-import ModelData from "../composant/dataBaseModel/page";
+'use client'
+import { useState } from "react";
+import ButtonCreat from "../../components/btn_new/page";
+import ModelData from "../../components/dataBaseModel/page";
+import CreateDatabaseForm from "@/components/createDatabaseForm/page";
 
 export default function Acceuil() {
+    const [visibility, setVisibility] = useState("hidden");
+
     const data = {
-        text_btn:'New Darabase',
+        text_btn:'New Database',
         text_btn2:'New Notebook',
         color:'green',
         color2:'blue',
@@ -33,16 +38,22 @@ export default function Acceuil() {
         type6:'Database',
         // -----------------------
     }
+    const handleClick = ()=>{
+        setVisibility(visibility == 'hidde'? 'show':'hidde')
+    }
 
     return (
+        <>
+        <CreateDatabaseForm handleClick={handleClick} visibility = {visibility}></CreateDatabaseForm>
         <section className="contain_menu_acceuil">
+
             <section className="contain_sous_menu_acceuil">
                 <div className="container_1">
                     <h4 className="sous_titre_1">ISPM - Parking</h4>
 
                     <div>
-                        <ButtonCreat text_btn={data.text_btn} color={data.color}/>
-                        <ButtonCreat text_btn={data.text_btn2} color={data.color2}/>
+                        <ButtonCreat handleClick={handleClick} text_btn={data.text_btn} color={data.color}/>
+                        <ButtonCreat handleClick={handleClick} text_btn={data.text_btn2} color={data.color2}/>
                     </div>
                 </div>
                 <div className="container_2">
@@ -65,5 +76,6 @@ export default function Acceuil() {
             </section>
 
         </section>
+        </>
     );
 }
