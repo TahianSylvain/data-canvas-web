@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
 import { EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
 
 const defaultData = [
@@ -48,67 +48,6 @@ const defaultData = [
 
 
 export default function EditableTable({ data, setData, columns, setColumns }) {
-  // const [data, setData] = useState(defaultData);
-
-  // const [columns, setColumns] = useState([
-  //   {
-  //     accessorKey: "launchname",
-  //     header: "Launch name",
-  //     cell: EditableCell,
-  //   },
-  //   {
-  //     accessorKey: "launchdate",
-  //     header: "Launch date",
-  //     cell: DateCell,
-  //   },
-  //   {
-  //     accessorKey: "owner",
-  //     header: "Owner",
-  //     cell: EditableCell,
-  //   },
-  //   {
-  //     accessorKey: "task",
-  //     header: "Task",
-  //     cell: EditableCell,
-  //   },
-  //   {
-  //     accessorKey: "status",
-  //     header: "Status",
-  //     cell: SelectCell,
-  //     options: ["Active", "Inactive", "Pending"],
-  //   },
-  //   {
-  //     accessorKey: "features",
-  //     header: "Features",
-  //     cell: EditableCell,
-  //   },
-  //   {
-  //     accessorKey: "description",
-  //     header: "Description",
-  //     cell: EditableCell,
-  //   },
-  // ]);
-
-  // const table = useReactTable({
-  //   data,
-  //   columns: [
-  //     ...columns,
-  //     {
-  //       id: "actions",
-  //       header: "Actions",
-  //       cell: ({ row }) => (
-  //         <button
-  //           onClick={() => deleteRow(row.original.id)}
-  //           className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-  //         >
-  //           Delete
-  //         </button>
-  //       ),
-  //     },
-  //   ],
-  //   getCoreRowModel: getCoreRowModel(),
-  // });
-
   const addRow = () => {
     const newRow = { id: data.length + 1 };
     columns.forEach((col) => {
@@ -133,12 +72,14 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
 
   const handleColumnNameEnter = (e) => {
     if (e.key === "Enter" && newColumnName.trim() !== "") {
+      const accessorKey = newColumnName.toLowerCase().replace(/\s+/g, "_");
       let newCell;
-      let newColumn = {
-        accessorKey: newColumnName.toLowerCase().replace(/\s+/g, "_"),
+
+      const newColumn = {
+        accessorKey,
         header: newColumnName,
       };
-  
+
       if (newColumnType === "text") {
         newCell = EditableCell;
       } else if (newColumnType === "select") {
@@ -147,16 +88,22 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
       } else if (newColumnType === "date") {
         newCell = DateCell;
       }
-  
+
       newColumn.cell = newCell;
+
+      // ✅ Mise à jour propre
       setColumns([...columns, newColumn]);
-  
-      setData(data.map(row => ({ ...row, [newColumn.accessorKey]: "" })));
+
+      // ✅ Mise à jour de chaque ligne avec une nouvelle clé
+      setData(data.map(row => ({ ...row, [accessorKey]: "" })));
+
+      // Reset
       setNewColumnName("");
       setNewColumnType("text");
       setNewColumnOptions("");
       setIsAddingColumn(false);
     }
+
   };
 
   const deleteColumn = (accessorKey) => {
@@ -227,7 +174,7 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
       </thead>
 
       <tbody>
-        {data.length > 0 ? (
+        {Array.isArray(data) && data.length > 0 ? (
           data.map((row, rowIndex) => (
             <tr
               key={row.id}
@@ -259,6 +206,7 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
             </td>
           </tr>
         )}
+        
       </tbody>
 
       </table>

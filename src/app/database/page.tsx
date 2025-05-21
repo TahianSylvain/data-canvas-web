@@ -1,23 +1,3 @@
-// import EditableTable from "@/components/EditableTable/EditableTable";
-
-// export default function Spreadsheet() {
-//   return (
-//     <div className="flex min-h-screen">
-//       {/* Barre de menu à gauche */}
-//       <div className="w-64 bg-gray-100 p-4 border-r border-gray-300">
-//         <h2 className="text-lg font-semibold mb-4">Table</h2>
-//         <ul className="space-y-2">
-//           <li><button className="w-full text-left">New Table</button></li>
-//         </ul>
-//       </div>
-
-//       {/* Partie principale : Titre + tableau */}
-//       <div className="flex-1 p-6">
-//         <EditableTable />
-//       </div>
-//     </div>
-//   );
-// }
 'use client';
 import { useState } from "react";
 import { EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
@@ -95,13 +75,15 @@ export default function Spreadsheet() {
 ]);
 
 const [activeTableId, setActiveTableId] = useState(1);
+const [isCreating, setIsCreating] = useState(false);
+const [newTableName, setNewTableName] = useState("");
 
 
-  const createNewTable = () => {
+const createNewTable = () => {
   const newId = tables.length + 1;
   const newTable = {
     id: newId,
-    name: `Tableau ${newId}`,
+    name: `Table ${newId}`,
     columns: [],
     data: [],
   };
@@ -109,6 +91,34 @@ const [activeTableId, setActiveTableId] = useState(1);
   setActiveTableId(newId);
 };
 
+  // Affiche le champ de saisie pour nommer la nouvelle table
+  const startCreatingTable = () => {
+    setNewTableName("");
+    setIsCreating(true);
+  };
+
+  // Valide et crée la table
+  const confirmCreateTable = () => {
+    if (newTableName.trim() === "") {
+      alert("Veuillez saisir un nom pour la table");
+      return;
+    }
+    const newId = tables.length + 1;
+    const newTable = {
+      id: newId,
+      name: newTableName,
+      columns: [],
+      data: [],
+    };
+    setTables([...tables, newTable]);
+    setActiveTableId(newId);
+    setIsCreating(false);
+  };
+
+  // Annule la création (cache le champ)
+  const cancelCreateTable = () => {
+    setIsCreating(false);
+  };
 const deleteTable = (id) => {
   const updated = tables.filter(t => t.id !== id);
   setTables(updated);
@@ -117,12 +127,27 @@ const deleteTable = (id) => {
   }
 };
 
-const setTableData = (id, newData) => {
-  setTables(tables.map(t => t.id === id ? { ...t, data: newData } : t));
+const setTableData = (id, updater) => {
+  setTables(prevTables =>
+    prevTables.map(t =>
+      t.id === id
+        ? {
+            ...t,
+            data: typeof updater === "function" ? updater(t.data) : [...updater],
+          }
+        : t
+    )
+  );
 };
 
 const setTableColumns = (id, newCols) => {
-  setTables(tables.map(t => t.id === id ? { ...t, columns: newCols } : t));
+  setTables(prevTables =>
+    prevTables.map(t =>
+      t.id === id
+        ? { ...t, columns: [...newCols] } // ✅ assure un nouveau tableau
+        : t
+    )
+  );
 };
 
 const activeTable = tables.find(t => t.id === activeTableId);

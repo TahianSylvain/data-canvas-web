@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Button } from '../buttons/button';
+import { useRouter } from 'next/navigation';
 
 interface parameter_type{
     visibility:string,
@@ -9,6 +10,7 @@ interface parameter_type{
 }
 
 export default function CreateDatabaseForm({visibility,nameForm, handleClick}:parameter_type) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     color: '',
@@ -22,8 +24,9 @@ export default function CreateDatabaseForm({visibility,nameForm, handleClick}:pa
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form data:', formData);
-    alert('Database created!');
+    // console.log('Form data:', formData);
+    // alert('Database created!');w
+    router.push('/database'); 
   };
   const contain_class = `contain_form_creatData ${visibility}`;
   const placeholder = `Your ${nameForm} name`;
