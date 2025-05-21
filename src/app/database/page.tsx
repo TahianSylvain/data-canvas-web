@@ -82,7 +82,7 @@ const createNewTable = () => {
   const newId = tables.length + 1;
   const newTable = {
     id: newId,
-    name: `Tableau ${newId}`,
+    name: `Table ${newId}`,
     columns: [],
     data: [],
   };
@@ -182,7 +182,7 @@ return (
               onClick={startCreatingTable}
               className="w-full px-3 py-2 mt-2 bg-green-500 text-white rounded hover:bg-green-600"
             >
-              Nouvelle Table
+              New Table
             </button>
           ) : (
             <div className="mt-2">
@@ -198,13 +198,13 @@ return (
                   onClick={confirmCreateTable}
                   className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
-                  Confirmer
+                  Confirm
                 </button>
                 <button
                   onClick={cancelCreateTable}
                   className="px-3 py-2 bg-gray-300 rounded hover:bg-gray-400"
                 >
-                  Annuler
+                  Cancel
                 </button>
               </div>
             </div>
