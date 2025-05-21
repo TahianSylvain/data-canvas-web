@@ -1,0 +1,51 @@
+.btn {
+    padding: .4rem 1rem;
+    border-radius: 1rem;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-textless {
+    padding: 0;
+}
+
+.btn-icon {
+    position: relative;
+    right: 0.25em;
+}
+
+.btn-icon-textless {
+    right: 0;
+    width: 28px;
+    height: 28px;
+}
+
+.btn:hover {
+    background-color: var(--blue);
+}
+
+.btn.btn-primary {
+    color: var(--blue);
+}
+
+.btn.btn-style-fill {
+    background-color: var(--blue);
+    color: #062e6f;
+    font-weight: 600;
+}
+
+.btn.btn-style-fill:hover{
+    opacity: 0.8;
+}
+
+.btn.btn-style-border {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.material-icons-round-textless {
+    font-size: 20px;
+    line-height: 1.75rem;
+}
