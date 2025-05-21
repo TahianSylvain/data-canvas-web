@@ -3,6 +3,8 @@ import { useState } from "react";
 import ButtonCreat from "../../components/btn_new/page";
 import ModelData from "../../components/dataBaseModel/page";
 import CreateDatabaseForm from "@/components/createDatabaseForm/page";
+import Header from "@/components/header/header";
+import Sidebar from "@/components/sidebar/sidebar";
 
 export default function Acceuil() {
     // const [visibility, setVisibility] = useState("hidden");
@@ -17,14 +19,15 @@ export default function Acceuil() {
         color:'green',
         color2:'blue',
         // -----------------------
-        name: 'Motorcicles database',
-        type:'Database',
         color_dataModel: 'blue',
         color_dataModel2: 'red',
         color_dataModel3: 'purple',
         color_dataModel4: 'green',
         color_dataModel5: 'beige',
         color_dataModel6: 'blue',
+        
+        name: 'Motorcicles database',
+        type:'Database',
 
         name2: 'Motorcicles database',
         type2:'Database',
@@ -71,6 +74,8 @@ export default function Acceuil() {
 
     return (
         <>
+        <Header/>
+        <Sidebar/>
         <CreateDatabaseForm handleClick={handleClick} visibility = {dataHome.visibility} nameForm={dataHome.nameForm}></CreateDatabaseForm>
         <section className="contain_menu_acceuil">
 
@@ -89,15 +94,12 @@ export default function Acceuil() {
                         <ModelData name={data.name} type={data.type} color={data.color_dataModel}/>
                         <ModelData name={data.name2} type={data.type2} color={data.color_dataModel2}/>
                         <ModelData name={data.name3} type={data.type3} color={data.color_dataModel3}/>
-                        <ModelData name={data.name4} type={data.type4} color={data.color_dataModel4}/>
-                        <ModelData name={data.name5} type={data.type5} color={data.color_dataModel5}/>
-                        <ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/>
                     </div>
                     <p className="sous_titre_2">Notebooks</p>
                     <div className="sous_container_1">
-                        <ModelData name={data.name} type={data.type} color={data.color_dataModel}/>
                         <ModelData name={data.name5} type={data.type5} color={data.color_dataModel5}/>
                         <ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/>
+                        {/* <ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/> */}
                     </div>
                 </div>
             </section>

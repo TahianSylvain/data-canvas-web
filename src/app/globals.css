@@ -49,13 +49,13 @@ body, * {
     justify-content: center;
 }
 .red{
-    background-color: red;
+    background-color: rgba(175, 93, 93, 1);
 }
 .blue{
-    background-color: blue;
+    background-color: rgba(93, 129, 175, 1);
 }
 .green{
-    background-color: rgb(91, 200, 135);
+    background-color: rgba(93, 175, 121, 1);
 }
 .purple{
     background-color: blueviolet;

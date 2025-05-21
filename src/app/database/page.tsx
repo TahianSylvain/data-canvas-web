@@ -22,6 +22,7 @@
 import { useState } from "react";
 import { EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
 import EditableTable from "@/components/EditableTable/EditableTable";
+import Header from "@/components/header/header";
 
 
 const emptycolumn = [];
@@ -129,52 +130,55 @@ const activeTable = tables.find(t => t.id === activeTableId);
   
 
 return (
-  <div className="flex min-h-screen">
-    {/* Menu à gauche */}
-    <div className="w-64 bg-gray-100 p-4 border-r border-gray-300">
-      <h2 className="text-lg font-semibold mb-4">Tables</h2>
-      <ul className="space-y-2">
-        {tables.map((table) => (
-          <li key={table.id} className="flex items-center justify-between">
+  <>
+    <Header />
+    <div className="flex min-h-screen">
+      {/* Menu à gauche */}
+      <div className="w-64 bg-gray-100 p-4 border-r border-gray-300">
+        <h2 className="text-lg font-semibold mb-4">Tables</h2>
+        <ul className="space-y-2">
+          {tables.map((table) => (
+            <li key={table.id} className="flex items-center justify-between">
+              <button
+                onClick={() => setActiveTableId(table.id)}
+                className={`flex-1 text-left px-3 py-2 rounded ${table.id === activeTableId ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}`}
+              >
+                {table.name}
+              </button>
+              <button
+                onClick={() => deleteTable(table.id)}
+                className="text-red-500 ml-2 hover:text-red-700"
+                title="Supprimer"
+              >
+                ✕
+              </button>
+            </li>
+          ))}
+          <li>
             <button
-              onClick={() => setActiveTableId(table.id)}
-              className={`flex-1 text-left px-3 py-2 rounded ${table.id === activeTableId ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}`}
+              onClick={createNewTable}
+              className="w-full px-3 py-2 mt-2 bg-green-500 text-white rounded hover:bg-green-600"
             >
-              {table.name}
-            </button>
-            <button
-              onClick={() => deleteTable(table.id)}
-              className="text-red-500 ml-2 hover:text-red-700"
-              title="Supprimer"
-            >
-              ✕
+              New Table
             </button>
           </li>
-        ))}
-        <li>
-          <button
-            onClick={createNewTable}
-            className="w-full px-3 py-2 mt-2 bg-green-500 text-white rounded hover:bg-green-600"
-          >
-            New Table
-          </button>
-        </li>
-      </ul>
-    </div>
+        </ul>
+      </div>
 
-    {/* Tableau actif */}
-    <div className="flex-1 p-6">
-      <h1 className="text-2xl font-bold mb-4">{activeTable?.name}</h1>
-      {activeTable && (
-        <EditableTable
-          data={activeTable.data}
-          setData={(newData) => setTableData(activeTable.id, newData)}
-          columns={activeTable.columns}
-          setColumns={(newCols) => setTableColumns(activeTable.id, newCols)}
-        />
-      )}
+      {/* Tableau actif */}
+      <div className="flex-1 p-6">
+        <h1 className="text-2xl font-bold mb-4">{activeTable?.name}</h1>
+        {activeTable && (
+          <EditableTable
+            data={activeTable.data}
+            setData={(newData) => setTableData(activeTable.id, newData)}
+            columns={activeTable.columns}
+            setColumns={(newCols) => setTableColumns(activeTable.id, newCols)}
+          />
+        )}
+      </div>
     </div>
-  </div>
+  </>
 );
 
 }

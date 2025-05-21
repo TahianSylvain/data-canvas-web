@@ -1,12 +1,8 @@
-import CreateDatabaseForm from "@/components/createDatabaseForm/page";
-import Header from "@/components/header/header";
-import Sidebar from "@/components/sidebar/sidebar";
+'use client'
 import Acceuil from "../home/page";
 
-export default function test() {
+export default function Test() {
 	return <div className="h-screen w-screen">
-		<Header />
-		<Sidebar />
 		<Acceuil/>
 	</div>
 }
