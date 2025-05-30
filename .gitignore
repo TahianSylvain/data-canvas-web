@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# custom: ajouté par une extension chez moi
+# -> askip il ne faut pas NE PAS ignorer .gitignore s'il a déjà été tracké par le build initial.
+/.vscode
