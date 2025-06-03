@@ -1,6 +1,6 @@
 'use client';
 import { useState } from "react";
-import { EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
+import { ShowCell, EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
 import EditableTable from "@/components/EditableTable/EditableTable";
 import Header from "@/components/header/header";
 
@@ -53,6 +53,7 @@ const defaultData = [
 ];
 
 const defaultColumns = [
+  { accessorKey: "id", header: "id", cell:ShowCell},
   { accessorKey: "launchname", header: "Launch name", cell: EditableCell },
   { accessorKey: "launchdate", header: "Launch date", cell: DateCell },
   { accessorKey: "owner", header: "Owner", cell: EditableCell },
@@ -157,35 +158,31 @@ const activeTable = tables.find(t => t.id === activeTableId);
 return (
   <>
     <Header />
-    <div className="flex min-h-screen">
+    <div className="flex bg-gray-100 min-h-screen">
       {/* Menu à gauche */}
-      <div className="w-64 bg-gray-100 p-4 border-r border-gray-300">
-        <h2 className="text-lg font-semibold mb-4">Tables</h2>
+      <div className="w-64 bg-white p-4 border-r border-gray-300">
         <ul className="space-y-2">
-          {tables.map((table) => (
-            <li key={table.id} className="flex items-center justify-between">
-              <button
-                onClick={() => setActiveTableId(table.id)}
-                className={`flex-1 text-left px-3 py-2 rounded ${table.id === activeTableId ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}`}
-              >
-                {table.name}
-              </button>
-              <button
-                onClick={() => deleteTable(table.id)}
-                className="text-red-500 ml-2 hover:text-red-700"
-                title="Supprimer"
-              >
-                ✕
-              </button>
-            </li>
-          ))}
+          
           <li>
+ 
             {!isCreating ? (
                 <button
                   onClick={startCreatingTable}
-                  className="w-full px-3 py-2 mt-2 bg-green-500 text-white rounded hover:bg-green-600"
-                >
-                  New Table
+                  className="w-full px-3 py-2 mt-2 rounded hover:bg-gray-200"
+                ><div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
+                    <div className="w-8 h-8 flex items-center justify-center bg-green-500 rounded hover:bg-green-600 cursor-pointer">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        fill="white"
+                        className="w-4 h-4"
+                      >
+                        <path d="M416 277.333H277.333V416h-42.666V277.333H96v-42.666h138.667V96h42.666v138.667H416v42.666z" />
+                      </svg>
+                    </div>
+                    <div className="text-gray-700 font-semibold">New Table</div>
+                </div>
+                 
                 </button>
               ) : (
                 <div className="mt-2">
@@ -213,12 +210,30 @@ return (
                 </div>
               )}
           </li>
+          <h2 className="text-lg font-semibold mb-4">Tables</h2>
+          {tables.map((table) => (
+            <li key={table.id} className="flex items-center justify-between">
+              <button
+                onClick={() => setActiveTableId(table.id)}
+                className={`flex-1 text-left px-3 py-2 rounded ${table.id === activeTableId ? 'bg-gray-200 text-black' : 'hover:bg-gray-200'}`}
+              >
+                {table.name}
+              </button>
+              <button
+                onClick={() => deleteTable(table.id)}
+                className="text-red-500 ml-2 hover:text-red-700"
+                title="Supprimer"
+              >
+                ✕
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
 
       {/* Tableau actif */}
       <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold mb-4">{activeTable?.name}</h1>
+        {/* <h1 className="text-2xl font-bold mb-4">{activeTable?.name}</h1> */}
         {activeTable && (
           <EditableTable
             data={activeTable.data}
