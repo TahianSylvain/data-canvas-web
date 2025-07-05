@@ -57,14 +57,12 @@ body {
 }
 .contain_menu_acceuil{
     width: 100%;
-    padding: 3rem 3rem 0 0;
-
+	padding: 3rem;
     display: flex;
     flex-flow: column wrap;
-    align-items: flex-end;
+	background-color: var(--bg-color);
 }
 .contain_sous_menu_acceuil{
-    width: 75%;
     height: auto;
 
     display: flex;
@@ -118,6 +116,7 @@ body {
     height: auto;
     margin: 10px 0 10px 0;
     display: flex;
+	gap: 24px;
     flex-flow: wrap;
     justify-content: flex-start;
 }

@@ -21,10 +21,10 @@ const CONTENTS = {
 
 export default function Sidebar() {
 	return <>
-		<div className="float_sidebar flex flex-col w-72 h-full py-4 px-5 border-r border-borderColor bg-foreground">
+		<div className="flex flex-col min-w-64 py-4 px-5 border-r border-borderColor bg-foreground">
 			<div className="flex flex-col mb-2">
 				{CONTENTS.create_section.map((item, id) => {
-					return <button key={id} className="flex items-center gap-3 p-2 px-4">
+					return <button key={id} className="flex items-center gap-3 p-2 px-4 hover:bg-[#EDEDED] rounded-lg">
 						<span className={`h-6 w-6 text-white flex items-center justify-center rounded-md`}
 							style={{backgroundColor: `${item.bgColor}`}}
 						>
