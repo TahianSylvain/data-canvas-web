@@ -25,7 +25,9 @@ export default function Sidebar() {
 			<div className="flex flex-col mb-2">
 				{CONTENTS.create_section.map((item, id) => {
 					return <button key={id} className="flex items-center gap-3 p-2 px-4">
-						<span className={`h-6 w-6 text-white flex items-center justify-center bg-[${item.bgColor}] rounded-md`}>
+						<span className={`h-6 w-6 text-white flex items-center justify-center rounded-md`}
+							style={{backgroundColor: `${item.bgColor}`}}
+						>
 							<IoMdAdd size={18} />
 						</span>
 						<span>{item.label}</span>
