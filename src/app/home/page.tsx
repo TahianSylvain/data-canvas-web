@@ -73,38 +73,44 @@ export default function Acceuil() {
     }
 
     return (
-        <>
-        <Header/>
-        <Sidebar/>
-        <CreateDatabaseForm handleClick={handleClick} visibility = {dataHome.visibility} nameForm={dataHome.nameForm}></CreateDatabaseForm>
-        <section className="contain_menu_acceuil">
+		<div className="flex flex-col min-h-screen min-w-screen">
+			<Header/>
+			<div className="flex flex-grow">
+				<CreateDatabaseForm handleClick={handleClick} visibility = {dataHome.visibility} nameForm={dataHome.nameForm}></CreateDatabaseForm>
+				<Sidebar/>
+				
+				<section className="contain_menu_acceuil">
 
-            <section className="contain_sous_menu_acceuil">
-                <div className="container_1">
-                    <h4 className="sous_titre_1">ISPM - Parking</h4>
+					<section className="contain_sous_menu_acceuil">
+						<div className="container_1">
+							<h4 className="sous_titre_1">ISPM - Parking</h4>
 
-                    <div>
-                        <ButtonCreat handleClick={handleClick} text_btn={data.text_btn} color={data.color}/>
-                        <ButtonCreat handleClick={handleClick} text_btn={data.text_btn2} color={data.color2}/>
-                    </div>
-                </div>
-                <div className="container_2">
-                    <p className="sous_titre_2">Databases</p>
-                    <div className="sous_container_1">
-                        <ModelData name={data.name} type={data.type} color={data.color_dataModel}/>
-                        <ModelData name={data.name2} type={data.type2} color={data.color_dataModel2}/>
-                        <ModelData name={data.name3} type={data.type3} color={data.color_dataModel3}/>
-                    </div>
-                    <p className="sous_titre_2">Notebooks</p>
-                    <div className="sous_container_1">
-                        <ModelData name={data.name5} type={data.type5} color={data.color_dataModel5}/>
-                        <ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/>
-                        {/* <ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/> */}
-                    </div>
-                </div>
-            </section>
+							<div>
+								<ButtonCreat handleClick={handleClick} text_btn={data.text_btn} color={data.color}/>
+								<ButtonCreat handleClick={handleClick} text_btn={data.text_btn2} color={data.color2}/>
+							</div>
+						</div>
+						<div className="container_2">
+							<p className="sous_titre_2">Databases</p>
+							<div className="sous_container_1">
+								<ModelData name={data.name} type={data.type} color={data.color_dataModel}/>
+								<ModelData name={data.name2} type={data.type2} color={data.color_dataModel2}/>
+								<ModelData name={data.name3} type={data.type3} color={data.color_dataModel3}/>
+								<ModelData name={data.name} type={data.type} color={data.color_dataModel}/>
+								<ModelData name={data.name2} type={data.type2} color={data.color_dataModel2}/>
+								<ModelData name={data.name3} type={data.type3} color={data.color_dataModel3}/>
+							</div>
+							<p className="sous_titre_2">Notebooks</p>
+							<div className="sous_container_1">
+								<ModelData name={data.name5} type={data.type5} color={data.color_dataModel5}/>
+								<ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/>
+								{/* <ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/> */}
+							</div>
+						</div>
+					</section>
 
-        </section>
-        </>
+				</section>
+			</div>
+		</div>
     );
 }
