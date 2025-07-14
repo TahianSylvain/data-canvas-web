@@ -65,7 +65,7 @@ export default function DatabasePage() {
           onClick: async () => {
             console.log(`📋 Table cliquée : ${table.slug}`);
             try {
-              if (!token || !currentWorkspace || !table.slug) return;
+              if (!token || !currentWorkspace || !table.slug) {console.log("Donnée manquante"); return};
               const fullTable = await getTable(currentWorkspace.id, dbSlug, table.slug, token);
               console.log('✅ Table chargée :', fullTable);
               setSelectedTable(fullTable);

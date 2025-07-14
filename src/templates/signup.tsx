@@ -42,7 +42,7 @@ export function Signup() {
             if (!auth.accessToken) throw new Error("Impossible de se connecter automatiquement")
 
             // Stocke ton token où tu veux : localStorage, contexte, state global, etc.
-            localStorage.setItem("token", auth.accessToken)
+            localStorage.setItem("accessToken", auth.accessToken)
 
             setSuccess(true)
             setUsername("")

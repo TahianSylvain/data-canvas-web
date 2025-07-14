@@ -3,10 +3,12 @@ import { WorkspaceEntity } from '@/services/anmaClient';
 
 interface AppState {
   token: string | null;
-  setToken: (t: string) => void;
+  setToken: (t: string | null) => void;
 
   currentWorkspace: WorkspaceEntity | null;
-  setCurrentWorkspace: (ws: WorkspaceEntity) => void;
+  setCurrentWorkspace: (ws: WorkspaceEntity | null) => void;
+
+  reset: () => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -15,4 +17,7 @@ export const useAppStore = create<AppState>((set) => ({
 
   currentWorkspace: null,
   setCurrentWorkspace: (ws) => set({ currentWorkspace: ws }),
+
+  reset: () => set({ token: null, currentWorkspace: null }),
 }));
+

@@ -99,9 +99,12 @@ export default function Acceuil() {
         console.log("✅ Workspaces récupérés :", ws);
         setWorkspaceList(ws);
 
+        // Ne pas forcer la sélection si vide
         if (ws.length > 0) {
           setCurrentWorkspace(ws[0]);
           console.log("✅ Premier workspace sélectionné :", ws[0]);
+        } else {
+          setCurrentWorkspace(null);
         }
       })
       .catch((err) => {
@@ -206,7 +209,7 @@ export default function Acceuil() {
           title={`Create ${popupType}`}
           onCancel={() => setPopupType(null)}
           onSubmit={async (data) => {
-            if (!token || !currentWorkspace) return;
+            if (!token) return;
 
             try {
               if (popupType === "Workspace") {
@@ -216,18 +219,25 @@ export default function Acceuil() {
                   logo: data.icon,
                 }, token);
                 setWorkspaceList(prev => [...prev, res]);
-                setCurrentWorkspace(res);
-              } else if (popupType === "Database") {
-                const res = await createDatabase(currentWorkspace.id, {
-                  name: data.name,
-                  description: data.description || '',
-                }, token);
-                setDatabases(prev => [...prev, res]);
-              } else if (popupType === "Notebook") {
-                const res = await createNotebook(currentWorkspace.id, {
-                  name: data.name,
-                }, token);
-                setNotebooks(prev => [...prev, res]);
+                setCurrentWorkspace(res);  // on met à jour le workspace courant ici
+              } else if (popupType === "Database" || popupType === "Notebook") {
+                if (!currentWorkspace) {
+                  console.warn("⛔ Pas de workspace sélectionné, impossible de créer", popupType);
+                  return;
+                }
+
+                if (popupType === "Database") {
+                  const res = await createDatabase(currentWorkspace.id, {
+                    name: data.name,
+                    description: data.description || '',
+                  }, token);
+                  setDatabases(prev => [...prev, res]);
+                } else if (popupType === "Notebook") {
+                  const res = await createNotebook(currentWorkspace.id, {
+                    name: data.name,
+                  }, token);
+                  setNotebooks(prev => [...prev, res]);
+                }
               }
               setPopupType(null);
             } catch (e) {
