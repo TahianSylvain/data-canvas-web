@@ -1,4 +1,3 @@
-// 'use client'
 
 // import ButtonIsland from "@/components/cells/buttonIsland"
 import ButtonIsland from "./../../../components/cells/buttonIsland";
@@ -9,8 +8,7 @@ import TextEditor from "./../../../components/cells/textEditor";
 // import { ButtonIconOnly } from "@/components/cells/new_buttons";
 import { DEBUGComponent } from "./../../../components/cells/new_buttons";
 
-export default function TestCells () {
-
+export default function TestCells() {
     return <div className="p-5 flex flex-col gap-2">
         {/* simplement ButtonIsland */}
         <div className="relative h-8">
@@ -24,15 +22,20 @@ export default function TestCells () {
             <TextEditor></TextEditor>
         </div>
 
-        {/* atambatra amin'izay */}
-        <div className="relative h-auto">
-            <p>cell en entier</p>
-            <Cell></Cell>
+    {
+        /* atambatra amin'izay */
+    }
+    {/* return (
+        <div> */}
+            <div className="relative h-auto">
+                <p>cell en entier</p>
+                <Cell></Cell>
+            </div>
+            <div className="relative h-auto flex">
+                <p>New buttons</p>
+                {/* <ButtonIconOnly className="" icon="arrow_upward" onClick={() => alert('Clicked!')}></ButtonIconOnly> */}
+                <DEBUGComponent />
+            </div>
         </div>
-        <div className="relative h-auto flex">
-            <p>New buttons</p>
-            {/* <ButtonIconOnly className="" icon="arrow_upward" onClick={() => alert('Clicked!')}></ButtonIconOnly> */}
-            <DEBUGComponent />
-        </div>
-    </div>
+    // );
 }

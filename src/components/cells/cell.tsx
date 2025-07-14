@@ -1,3 +1,5 @@
+'use client'
+
 import ButtonIsland from "./buttonIsland";
 import CodeEditor from "./textEditor";
 import AddButtons from "./addCellButtons"
@@ -6,9 +8,9 @@ import AddButtons from "./addCellButtons"
 //     whether for a new programming cell or for a new text Cell.
 
 export default function Cell() {
-    return <div className="relative flex flex-col"> {/* container */ }
-        <ButtonIsland ></ButtonIsland>
-        <CodeEditor ></CodeEditor>
-        <AddButtons></AddButtons>
+    return <div className="relative flex flex-col">
+        <ButtonIsland />
+        <CodeEditor />
+        <AddButtons />
     </div>
 }

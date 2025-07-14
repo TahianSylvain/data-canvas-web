@@ -10,10 +10,20 @@ const noChildren = "";
  * Only manages CSS.
  * Future business logics must be managed by the higher wrappers/further down dependents
  */
-function _BaseWithoutBorderButton({ children, icon, onClick, className = "" }) {
+function _BaseWithoutBorderButton({
+    children,
+    yellowBackground,
+    icon,
+    onClick,
+    className = "",
+}) {
+    const background = yellowBackground
+        ? "hover:bg-[#ffffff] bg-[#efefef]"
+        : "bg-[#ffffff] hover:bg-[#efefef]";
+
     return (
         <Button
-            className={`bg-[#ffffff] hover:bg-[#efefef] !flex items-center justify-between ${className}`}
+            className={`${background} !flex items-center justify-between ${className}`}
             onClick={onClick}
         >
             <span className="material-icons-round"> {icon} </span>
@@ -32,12 +42,14 @@ function _BaseWithoutBorderButton({ children, icon, onClick, className = "" }) {
 function _BaseWithBorderButton({
     children,
     onClick,
+    yellowBackground,
     className = "",
     icon = "",
 }) {
     return (
         <_BaseWithoutBorderButton
             icon={icon}
+            yellowBackground={yellowBackground}
             className={`border-2 border-[#dcdcdc] hover:border-[#efefef] border-opacity-100 ${className}`}
             onClick={onClick}
         >
@@ -47,12 +59,18 @@ function _BaseWithBorderButton({
 }
 
 // Wraps/Depends on _BaseWithBorderButton
-export function ButtonIconOnlyBorder({ onClick, icon, className = "" }) {
+export function ButtonIconOnlyBorder({
+    onClick,
+    icon,
+    yellowBackground = false,
+    className = "",
+}) {
     return (
         <_BaseWithBorderButton
             icon={icon}
             onClick={onClick}
             className={className}
+            yellowBackground={yellowBackground}
         >
             {noChildren}
         </_BaseWithBorderButton>
@@ -60,12 +78,19 @@ export function ButtonIconOnlyBorder({ onClick, icon, className = "" }) {
 }
 
 // Wraps/Depends on _BaseWithBorderButton
-export function ButtonWithTextBorder({ text, onClick, icon, className = "" }) {
+export function ButtonWithTextBorder({
+    text,
+    onClick,
+    yellowBackground = false,
+    icon,
+    className = "",
+}) {
     return (
         <_BaseWithBorderButton
             onClick={onClick}
             className={className}
             icon={icon}
+            yellowBackground={yellowBackground}
         >
             {text}
         </_BaseWithBorderButton>
@@ -73,12 +98,18 @@ export function ButtonWithTextBorder({ text, onClick, icon, className = "" }) {
 }
 
 // Wraps _BaseWithoutBorderButton
-export function ButtonIconOnlyBorderless({ onClick, icon, className = "" }) {
+export function ButtonIconOnlyBorderless({
+    onClick,
+    icon,
+    yellowBackground = false,
+    className = "",
+}) {
     return (
         <_BaseWithoutBorderButton
             onClick={onClick}
             className={className}
             icon={icon}
+            yellowBackground={yellowBackground}
         >
             {noChildren}
         </_BaseWithoutBorderButton>
@@ -90,6 +121,7 @@ export function ButtonWithTextBorderless({
     text,
     onClick,
     icon,
+    yellowBackground = false,
     className = "",
 }) {
     return (
@@ -97,6 +129,7 @@ export function ButtonWithTextBorderless({
             onClick={onClick}
             className={className}
             icon={icon}
+            yellowBackground={yellowBackground}
         >
             {text}
         </_BaseWithoutBorderButton>
