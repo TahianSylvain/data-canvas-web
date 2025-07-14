@@ -1,0 +1,9 @@
+# Nmap 7.93 scan initiated Wed May 21 22:45:30 2025 as:
+    nmap -A -sV -sS -O -p3000 -d -oX ./output.xml -oG ./port3000scan.gnmap --system-dns localhost
+# Ports scanned: TCP(1;3000) UDP(0;) SCTP(0;) PROTOCOLS(0;)
+Host: 127.0.0.1 (localhost)	Status: Up
+Host: 127.0.0.1 (localhost)	Ports: 3000/open/tcp//ppp?///	OS: Linux 2.6.32	Seq Index: 253	IP ID Seq: All zeros
+# Nmap done at Wed May 21 22:45:44 2025 -- 1 IP address (1 host up) scanned in 13.88 seconds
+
+
+
