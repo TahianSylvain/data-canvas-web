@@ -16,6 +16,8 @@ import { FiBook, FiCode, FiDatabase, FiCpu, FiGrid } from "react-icons/fi";
 
 const colorOptions = ['#F87171', '#FBBF24', '#34D399', '#60A5FA', '#A78BFA'];
 
+import { useRouter } from 'next/navigation'; // ← en haut du fichier
+
 
 const iconOptions = [
   { name: "book", icon: <FiBook size={20} /> },
@@ -30,6 +32,8 @@ export default function Acceuil() {
   const setCurrentWorkspace = useAppStore(state => state.setCurrentWorkspace);
   const currentWorkspace = useAppStore(state => state.currentWorkspace);
 
+  const router = useRouter();
+
   const [workspaceList, setWorkspaceList] = useState<WorkspaceEntity[]>([]);
   const [databases, setDatabases] = useState<DatabaseEntity[]>([]);
   const [notebooks, setNotebooks] = useState<NotebookEntity[]>([]);
@@ -42,7 +46,7 @@ export default function Acceuil() {
     createSections: [{
       label: "New workspace",
       bgColor: "#5DAF79",
-      onClick: () => setShowCreatePopup(true),
+      onClick: () => setPopupType("Workspace"),
     }],
     otherSections: [
       {
@@ -169,24 +173,26 @@ export default function Acceuil() {
             <div className="container_2">
               <p className="sous_titre_2">Databases</p>
               <div className="sous_container_1">
-                {databases.map(({ id, name }) => (
+                {databases.map(({ id, name, slug }) => (
                   <ModelData
                     key={id}
                     name={name || "Untitled"}
                     type="Database"
                     color="blue"
+                    onClick={() => router.push(`/database/${slug}`)} // ← ici
                   />
                 ))}
               </div>
 
               <p className="sous_titre_2">Notebooks</p>
               <div className="sous_container_1">
-                {notebooks.map(({ id, name }) => (
+                {notebooks.map(({ id, name, slug }) => (
                   <ModelData
                     key={id}
                     name={name || "Untitled"}
                     type="Notebook"
                     color="beige"
+                    onClick={() => router.push(`/notebook/${slug}`)}
                   />
                 ))}
               </div>
@@ -220,7 +226,6 @@ export default function Acceuil() {
               } else if (popupType === "Notebook") {
                 const res = await createNotebook(currentWorkspace.id, {
                   name: data.name,
-                  content: data.content || null,
                 }, token);
                 setNotebooks(prev => [...prev, res]);
               }
@@ -232,18 +237,16 @@ export default function Acceuil() {
           fields={[
             ...(popupType === "Workspace" ? [
               { label: "Name", name: "name", type: "text" },
-              { label: "Color", name: "color", type: "select", options: colorOptions },
-              { label: "Icon", name: "icon", type: "icon", options: iconOptions },
+              //{ label: "Color", name: "color", type: "select", options: colorOptions },
+              //{ label: "Icon", name: "icon", type: "icon", options: iconOptions },
             ] : []),
 
             ...(popupType === "Database" ? [
               { label: "Name", name: "name", type: "text" },
-              { label: "Description", name: "description", type: "text" },
             ] : []),
 
             ...(popupType === "Notebook" ? [
               { label: "Name", name: "name", type: "text" },
-              { label: "Content", name: "content", type: "textarea" },
             ] : []),
           ]}
         />

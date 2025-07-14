@@ -86,6 +86,7 @@ export interface NotebookEntity {
 
 export interface CreateTableDto {
   name?: string;
+  columnsJson?: string;
 }
 
 export interface TableEntity {
