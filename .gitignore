@@ -40,6 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# custom: ajouté par une extension chez moi
+# custom: ajouté par une extension chez moi -- Notahiana
 # -> askip il ne faut pas NE PAS ignorer .gitignore s'il a déjà été tracké par le build initial.
 /.vscode
+TODO

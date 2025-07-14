@@ -1,3 +1,4 @@
+// 'use client'
 // pour les petits boutons add cell et add md text
 
 // interface IAddButtonProps {

@@ -1,6 +1,13 @@
-import ButtonIsland from "@/components/cells/buttonIsland";
-import Cell from "@/components/cells/cell";
-import TextEditor from "@/components/cells/textEditor";
+// 'use client'
+
+// import ButtonIsland from "@/components/cells/buttonIsland"
+import ButtonIsland from "./../../../components/cells/buttonIsland";
+// import Cell from "@/components/cells/cell";
+import Cell from "./../../../components/cells/cell";
+// import TextEditor from "@/components/cells/textEditor";
+import TextEditor from "./../../../components/cells/textEditor";
+// import { ButtonIconOnly } from "@/components/cells/new_buttons";
+import { DEBUGComponent } from "./../../../components/cells/new_buttons";
 
 export default function TestCells () {
 
@@ -21,6 +28,11 @@ export default function TestCells () {
         <div className="relative h-auto">
             <p>cell en entier</p>
             <Cell></Cell>
+        </div>
+        <div className="relative h-auto flex">
+            <p>New buttons</p>
+            {/* <ButtonIconOnly className="" icon="arrow_upward" onClick={() => alert('Clicked!')}></ButtonIconOnly> */}
+            <DEBUGComponent />
         </div>
     </div>
 }
