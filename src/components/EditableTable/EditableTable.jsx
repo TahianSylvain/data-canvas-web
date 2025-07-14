@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect  } from "react";
 import { flexRender } from "@tanstack/react-table";
-import { EditableCell, DateCell, SelectCell } from '@/components/Cellcomponents/CellComponents';
+import { EditableCell, DateCell, SelectCell, NumberCell } from '@/components/Cellcomponents/CellComponents';
 
 // const defaultData = [
 //   {
@@ -108,6 +108,8 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
         newColumn.options = newColumnOptions.split(",").map((opt) => opt.trim());
       } else if (newColumnType === "date") {
         newCell = DateCell;
+      } else if (newColumnType === "number") {
+        newCell = NumberCell;
       }
 
       newColumn.cell = newCell;
@@ -149,10 +151,10 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
                 <div className="flex items-center justify-between">
                   <span>{col.header}</span>
                   <button
-                    onClick={() => deleteColumn(col.accessorKey)}
-                    className="text-red-500 hover:text-red-700 ml-2"
+                    // onClick={() => deleteColumn(col.accessorKey)} //----
+                    // className="text-red-500 hover:text-red-700 ml-2"
                   >
-                    -
+                    <img src="/vercel.svg" alt="Icône" className="w-2 h-2 invert scale-y-[-1]" />
                   </button>
                 </div>
               </th>
@@ -183,6 +185,7 @@ export default function EditableTable({ data, setData, columns, setColumns }) {
                   onChange={(e) => setNewColumnType(e.target.value)}
                 >
                   <option value="text">Text</option>
+                  <option value="number">Number</option>
                   <option value="select">Select</option>
                   <option value="date">Date</option>
                 </select>

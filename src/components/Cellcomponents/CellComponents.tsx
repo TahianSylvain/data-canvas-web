@@ -22,4 +22,9 @@ export function SelectCell({ getValue, row, column, setData }) {
       ))}
     </select>
   );
+  
+}
+export function NumberCell({ getValue, row, column, setData }) {
+  const [value, setValue] = useState(getValue());
+  return <input type="number" value={value} onChange={(e) => setValue(e.target.value)} onBlur={() => setData((prev) => prev.map(r => r.id === row.id ? { ...r, [column.accessorKey]: value } : r))}  className="bg-transparent px-2 py-1 w-full"/>;
 }

@@ -230,19 +230,52 @@ return (
           ))}
         </ul>
       </div>
+      <div className="flex flex-col w-full">
+          <div className="flex items-start space-x-4 text-sm text-gray-700 bg-white border border-gray-300 p-2">
+            <button className="flex items-center space-x-1 hover:text-black">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M3 16h13M3 8h13M3 12h9M21 16l-4 4m0 0l-4-4m4 4V4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>Sort</span>
+            </button>
 
-      {/* Tableau actif */}
-      <div className="flex-1 p-6">
-        {/* <h1 className="text-2xl font-bold mb-4">{activeTable?.name}</h1> */}
-        {activeTable && (
-          <EditableTable
-            data={activeTable.data}
-            setData={(newData) => setTableData(activeTable.id, newData)}
-            columns={activeTable.columns}
-            setColumns={(newCols) => setTableColumns(activeTable.id, newCols)}
-          />
-        )}
+            <button className="flex items-center space-x-1 hover:text-black">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M3 4h18l-6.5 8v6l-5 2v-8L3 4z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+
+              <span>Filter</span>
+            </button>
+
+            <button className="flex items-center space-x-1 hover:text-black">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M4 21v-7M4 10V3M12 21v-4M12 10V3M20 21v-10M20 7V3M4 14h4M12 17h4M20 11h-4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+
+              <span>Filter</span>
+            </button>
+
+            <button className="flex items-center space-x-1 hover:text-black">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M17.94 17.94A10.94 10.94 0 0112 20C7.03 20 2.73 16.11 1 12a16.88 16.88 0 014-5.27M10.58 10.58a2 2 0 002.83 2.83M6.53 6.53A10.94 10.94 0 0112 4c4.97 0 9.27 3.89 11 8-1.07 2.6-3.07 4.89-5.56 6.38M1 1l22 22" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>Hide fields</span>
+            </button>
+          </div>
+          {/* Tableau actif */}
+          <div className="flex-1 p-6">
+            {/* <h1 className="text-2xl font-bold mb-4">{activeTable?.name}</h1> */}
+            {activeTable && (
+              <EditableTable
+                data={activeTable.data}
+                setData={(newData) => setTableData(activeTable.id, newData)}
+                columns={activeTable.columns}
+                setColumns={(newCols) => setTableColumns(activeTable.id, newCols)}
+              />
+            )}
+          </div>
       </div>
+      
     </div>
   </>
 );
