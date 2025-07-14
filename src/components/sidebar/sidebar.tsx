@@ -1,53 +1,65 @@
 import Link from "next/link"
 import { IoMdAdd } from "react-icons/io"
 
-const CONTENTS = {
-	create_section: [
-		{label: "New workspace", bgColor: "#5DAF79"},
-		{label: "New from template", bgColor: "#5D81AF"}
-	],
-	other_section: [
-		{
-			section_title: "Workspaces",
-			section_content: [
-				{label: "Untitled workspace", href:''},
-				{label: "ISPM - Webpage", href:''},
-				{label: "ISPM - Parkings", href:''}
-			]
-		}
-	]
+export type SidebarItem = {
+	label: string;
+	href?: string;
+	bgColor?: string;
+	onClick?: () => void; // ← AJOUT
 }
 
+export type SidebarSection = {
+	section_title?: string;
+	section_content: SidebarItem[];
+}
 
-export default function Sidebar() {
-	return <>
-		<div className="float_sidebar flex flex-col w-72 h-full py-4 px-5 border-r border-borderColor bg-foreground">
-			<div className="flex flex-col mb-2">
-				{CONTENTS.create_section.map((item, id) => {
-					return <button key={id} className="flex items-center gap-3 p-2 px-4">
-						<span className={`h-6 w-6 text-white flex items-center justify-center bg-[${item.bgColor}] rounded-md`}>
+export type SidebarProps = {
+	createSections: SidebarItem[];
+	otherSections: SidebarSection[];
+}
+
+export default function Sidebar({ createSections, otherSections }: SidebarProps) {
+	return (
+		<aside className="flex flex-col min-w-64 py-4 px-5 border-r border-borderColor bg-foreground">
+			<div className="flex flex-col mb-4">
+				{createSections.map((item, id) => (
+					<button
+						key={id}
+						onClick={item.onClick} // ← ICI
+						className="flex items-center gap-3 p-2 px-4 hover:bg-[#EDEDED] rounded-lg"
+					>
+						<span
+							className="h-6 w-6 text-white flex items-center justify-center rounded-md"
+							style={{ backgroundColor: item.bgColor || "#ccc" }}
+						>
 							<IoMdAdd size={18} />
 						</span>
 						<span>{item.label}</span>
 					</button>
-				})}
+				))}
 			</div>
-			<div>
-				{CONTENTS.other_section.map((section, id) => {
-					return <div key={id}>
-						<span className="font-bold">{section.section_title}</span>
+
+			<div className="flex flex-col gap-4">
+				{otherSections.map((section, i) => (
+					<div key={i}>
+						{section.section_title && (
+							<span className="font-bold text-sm">{section.section_title}</span>
+						)}
 						<div className="mt-2 flex flex-col">
-							{section.section_content.map((item, id) => {
-								return <Link 
-									key={id}
-									href={item.href}
-									className="p-2 px-4 text-[13px] font-light hover:bg-[#EDEDED] rounded-lg"
-								>{item.label}</Link>
-							})}
+							{section.section_content.map((item, j) => (
+								<button
+									key={j}
+									onClick={item.onClick}
+									className="text-left p-2 px-4 text-[13px] font-light hover:bg-[#EDEDED] rounded-lg w-full"
+								>
+									{item.label}
+								</button>
+							))}
 						</div>
 					</div>
-				})}
+				))}
 			</div>
-		</div>
-	</>
-} 
+		</aside>
+	);
+}
+

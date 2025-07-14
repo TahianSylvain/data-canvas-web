@@ -1,110 +1,253 @@
 'use client'
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import ButtonCreat from "../../components/btn_new/page";
 import ModelData from "../../components/dataBaseModel/page";
-import CreateDatabaseForm from "@/components/createDatabaseForm/page";
 import Header from "@/components/header/header";
 import Sidebar from "@/components/sidebar/sidebar";
 
+import { listWorkspaces, getDatabases, getNotebooks, createWorkspace, getWorkspace, createNotebook, createDatabase } from "@/services/anmaClient"; // adapte ton import
+import type { WorkspaceEntity, DatabaseEntity, NotebookEntity } from "@/services/anmaClient";
+
+import PopupForm from '@/components/PopupForm';
+
+import { useAppStore } from "@/services/store"; // ← zustand
+import { FiBook, FiCode, FiDatabase, FiCpu, FiGrid } from "react-icons/fi";
+
+const colorOptions = ['#F87171', '#FBBF24', '#34D399', '#60A5FA', '#A78BFA'];
+
+
+const iconOptions = [
+  { name: "book", icon: <FiBook size={20} /> },
+  { name: "code", icon: <FiCode size={20} /> },
+  { name: "database", icon: <FiDatabase size={20} /> },
+  { name: "cpu", icon: <FiCpu size={20} /> },
+  { name: "grid", icon: <FiGrid size={20} /> },
+];
+
 export default function Acceuil() {
-    // const [visibility, setVisibility] = useState("hidden");
-    const [dataHome, setDataHome] = useState({
-        visibility: 'hidden',
-        nameForm: 'Database'
-    });
+  const token = useAppStore(state => state.token);
+  const setCurrentWorkspace = useAppStore(state => state.setCurrentWorkspace);
+  const currentWorkspace = useAppStore(state => state.currentWorkspace);
 
-    const data = {
-        text_btn:'New Database',
-        text_btn2:'New Notebook',
-        color:'green',
-        color2:'blue',
-        // -----------------------
-        color_dataModel: 'blue',
-        color_dataModel2: 'red',
-        color_dataModel3: 'purple',
-        color_dataModel4: 'green',
-        color_dataModel5: 'beige',
-        color_dataModel6: 'blue',
-        
-        name: 'Motorcicles database',
-        type:'Database',
+  const [workspaceList, setWorkspaceList] = useState<WorkspaceEntity[]>([]);
+  const [databases, setDatabases] = useState<DatabaseEntity[]>([]);
+  const [notebooks, setNotebooks] = useState<NotebookEntity[]>([]);
 
-        name2: 'Motorcicles database',
-        type2:'Database',
-        
-        name3: 'Motorcicles database',
-        type3:'Database',
-        
-        name4: 'Motorcicles database',
-        type4:'Database',
-        
-        name5: 'Motorcicles database',
-        type5:'Database',
-        
-        name6: 'Motorcicles database',
-        type6:'Database',
-        // -----------------------
+  const [showCreatePopup, setShowCreatePopup] = useState(false);
+
+  const [popupType, setPopupType] = useState<null | "Database" | "Notebook" | "Workspace">(null);
+
+  const sidebarContent = {
+    createSections: [{
+      label: "New workspace",
+      bgColor: "#5DAF79",
+      onClick: () => setShowCreatePopup(true),
+    }],
+    otherSections: [
+      {
+        section_title: "Workspaces",
+        section_content: workspaceList.map(ws => ({
+          label: ws.name || "Untitled",
+          onClick: () => handleWorkspaceSelect(ws.slug!),
+        })),
+      }
+    ]
+  };
+
+  async function handleWorkspaceSelect(slug: string) {
+    if (!token) return;
+
+    try {
+      console.log("📥 Chargement workspace :", slug);
+      const workspace = await getWorkspace(slug, token);
+      const databases = await getDatabases(workspace.id, token);
+      const notebooks = await getNotebooks(workspace.id, token);
+
+      setCurrentWorkspace(workspace);
+      setDatabases(databases);
+      setNotebooks(notebooks);
+
+      console.log("✅ Workspace sélectionné :", workspace);
+    } catch (err) {
+      console.error("❌ Erreur lors du chargement :", err);
     }
-    const handleClick = (e)=>{
-        const textContentList = e.target.textContent.split(' ');
-        const _name = textContentList[textContentList.length - 1];
-        
-        
-        if(_name != 'Cancel'){
-            setDataHome(
-                (prev) =>({
-                    nameForm: _name,
-                    visibility: prev.visibility == 'hidde'? 'show':'hidde'
-                })
-                
-            )
-        }else{
-            setDataHome(
-                (prev) =>({
-                    ...prev,
-                    visibility: prev.visibility == 'hidde'? 'show':'hidde'
-                })
-                
-            )
+  }
+
+  // 1. Load token if needed (optional fallback)
+  useEffect(() => {
+    if (!token) {
+      const t = localStorage.getItem("accessToken");
+      if (t) {
+        console.log("✅ Token loaded from localStorage:", t);
+        useAppStore.getState().setToken(t);
+      }
+    }
+  }, []);
+
+  // 2. Charger les workspaces
+  useEffect(() => {
+    if (!token) return;
+
+    console.log("⏳ Chargement des workspaces...");
+    listWorkspaces(token)
+      .then((ws) => {
+        console.log("✅ Workspaces récupérés :", ws);
+        setWorkspaceList(ws);
+
+        if (ws.length > 0) {
+          setCurrentWorkspace(ws[0]);
+          console.log("✅ Premier workspace sélectionné :", ws[0]);
         }
-        console.log(_name);
-        console.log(dataHome.nameForm);
-        // setVisibility()
+      })
+      .catch((err) => {
+        console.error("❌ Erreur listWorkspaces:", err);
+      });
+  }, [token]);
+
+  // 3. Charger databases et notebooks du workspace sélectionné
+  useEffect(() => {
+    if (!token || !currentWorkspace) return;
+
+    console.log("⏳ Chargement contenu du workspace :", currentWorkspace);
+
+    getDatabases(currentWorkspace.id, token)
+      .then((dbs) => {
+        console.log("✅ Bases de données :", dbs);
+        setDatabases(dbs);
+      })
+      .catch((err) => console.error("❌ Erreur getDatabases:", err));
+
+    getNotebooks(currentWorkspace.id, token)
+      .then((nbs) => {
+        console.log("✅ Notebooks :", nbs);
+        setNotebooks(nbs);
+      })
+      .catch((err) => console.error("❌ Erreur getNotebooks:", err));
+  }, [token, currentWorkspace]);
+
+  const buttons = [
+    { text: 'New Database', color: 'green' },
+    { text: 'New Notebook', color: 'blue' }
+  ];
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const textContentList = (e.currentTarget.textContent || '').split(' ');
+    const _name = textContentList[textContentList.length - 1] as "Database" | "Notebook" | "Workspace";
+
+    if (_name === "Database" || _name === "Notebook" || _name === "Workspace") {
+      setPopupType(_name);
+    } else {
+      setPopupType(null);
     }
+  };
 
-    return (
-        <>
-        <Header/>
-        <Sidebar/>
-        <CreateDatabaseForm handleClick={handleClick} visibility = {dataHome.visibility} nameForm={dataHome.nameForm}></CreateDatabaseForm>
+  return (
+    <div className="flex flex-col min-h-screen min-w-screen">
+      <Header />
+      <div className="flex flex-grow">
+        <Sidebar
+          {...sidebarContent}
+        />
+
         <section className="contain_menu_acceuil">
+          <section className="contain_sous_menu_acceuil">
+            <div className="container_1">
+              <h4 className="sous_titre_1">{currentWorkspace?.name || "..."}</h4>
+              <div>
+                {buttons.map(({ text, color }, idx) => (
+                  <ButtonCreat
+                    key={idx}
+                    handleClick={handleClick}
+                    text_btn={text}
+                    color={color}
+                  />
+                ))}
+              </div>
+            </div>
 
-            <section className="contain_sous_menu_acceuil">
-                <div className="container_1">
-                    <h4 className="sous_titre_1">ISPM - Parking</h4>
+            <div className="container_2">
+              <p className="sous_titre_2">Databases</p>
+              <div className="sous_container_1">
+                {databases.map(({ id, name }) => (
+                  <ModelData
+                    key={id}
+                    name={name || "Untitled"}
+                    type="Database"
+                    color="blue"
+                  />
+                ))}
+              </div>
 
-                    <div>
-                        <ButtonCreat handleClick={handleClick} text_btn={data.text_btn} color={data.color}/>
-                        <ButtonCreat handleClick={handleClick} text_btn={data.text_btn2} color={data.color2}/>
-                    </div>
-                </div>
-                <div className="container_2">
-                    <p className="sous_titre_2">Databases</p>
-                    <div className="sous_container_1">
-                        <ModelData name={data.name} type={data.type} color={data.color_dataModel}/>
-                        <ModelData name={data.name2} type={data.type2} color={data.color_dataModel2}/>
-                        <ModelData name={data.name3} type={data.type3} color={data.color_dataModel3}/>
-                    </div>
-                    <p className="sous_titre_2">Notebooks</p>
-                    <div className="sous_container_1">
-                        <ModelData name={data.name5} type={data.type5} color={data.color_dataModel5}/>
-                        <ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/>
-                        {/* <ModelData name={data.name6} type={data.type6} color={data.color_dataModel6}/> */}
-                    </div>
-                </div>
-            </section>
-
+              <p className="sous_titre_2">Notebooks</p>
+              <div className="sous_container_1">
+                {notebooks.map(({ id, name }) => (
+                  <ModelData
+                    key={id}
+                    name={name || "Untitled"}
+                    type="Notebook"
+                    color="beige"
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
         </section>
-        </>
-    );
+      </div>
+      {popupType && (
+        <PopupForm
+          visible={true}
+          title={`Create ${popupType}`}
+          onCancel={() => setPopupType(null)}
+          onSubmit={async (data) => {
+            if (!token || !currentWorkspace) return;
+
+            try {
+              if (popupType === "Workspace") {
+                const res = await createWorkspace({
+                  name: data.name,
+                  color: data.color,
+                  logo: data.icon,
+                }, token);
+                setWorkspaceList(prev => [...prev, res]);
+                setCurrentWorkspace(res);
+              } else if (popupType === "Database") {
+                const res = await createDatabase(currentWorkspace.id, {
+                  name: data.name,
+                  description: data.description || '',
+                }, token);
+                setDatabases(prev => [...prev, res]);
+              } else if (popupType === "Notebook") {
+                const res = await createNotebook(currentWorkspace.id, {
+                  name: data.name,
+                  content: data.content || null,
+                }, token);
+                setNotebooks(prev => [...prev, res]);
+              }
+              setPopupType(null);
+            } catch (e) {
+              console.error(`Error creating ${popupType}:`, e);
+            }
+          }}
+          fields={[
+            ...(popupType === "Workspace" ? [
+              { label: "Name", name: "name", type: "text" },
+              { label: "Color", name: "color", type: "select", options: colorOptions },
+              { label: "Icon", name: "icon", type: "icon", options: iconOptions },
+            ] : []),
+
+            ...(popupType === "Database" ? [
+              { label: "Name", name: "name", type: "text" },
+              { label: "Description", name: "description", type: "text" },
+            ] : []),
+
+            ...(popupType === "Notebook" ? [
+              { label: "Name", name: "name", type: "text" },
+              { label: "Content", name: "content", type: "textarea" },
+            ] : []),
+          ]}
+        />
+      )}
+    </div>
+  );
 }

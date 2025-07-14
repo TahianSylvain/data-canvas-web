@@ -14,7 +14,7 @@ export default function ModelData({name,type,color}:dataType) {
 
     return (
         // <section className="contain_model_test">
-        <div className="data_model">
+        <div className="data_model hover:shadow-md">
             <div className={class_contain_icon}>
                 <IoMdAdd size={40} />  
             </div>
