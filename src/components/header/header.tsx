@@ -1,16 +1,17 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 import { FaBars, FaRegUser } from "react-icons/fa6";
+import { LogoutButton } from "../buttons/logoutButton";
 
 type PropsType = {
 	children?: ReactNode
 }
 
-export default function Header({children}: PropsType) {
+export default function Header({ children }: PropsType) {
 
-	if(!children) {
+	if (!children) {
 		children = <h1>
-			<Image src={"/logo.png"} width={110} height={32} alt="logo" className=""/>
+			<Image src={"/logo.png"} width={110} height={32} alt="logo" className="" />
 		</h1>
 	}
 
@@ -22,8 +23,11 @@ export default function Header({children}: PropsType) {
 				</button>
 				{children}
 			</div>
-			<div className="bg-[#6368C7] rounded-full p-2">
-				<FaRegUser size={18} className="text-white"/>
+			<div className="flex">
+				<div className="bg-[#6368C7] rounded-full p-2 mr-4">
+					<FaRegUser size={18} className="text-white" />
+				</div>
+				<LogoutButton></LogoutButton>
 			</div>
 		</div>
 	</>
