@@ -156,14 +156,21 @@ body {
 .btnMoreCels{
     border: 1px solid grey;
     padding: 5px;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     justify-content: center;
+    margin: 0 6px 0 0;
 }
 .containBtnMoreCells{
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+.btnRun{
+    /* margin-top: 10px; */
+    display: flex;
+    align-items: center;
 }
