@@ -6,6 +6,7 @@ First, run the development server:
 
 ```bash
 npm run dev
+sudo nmap -A -sV -sS -O -p 3000 -d -oX ./output.xml --system-dns --reason localhost
 # or
 yarn dev
 # or
