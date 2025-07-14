@@ -153,3 +153,17 @@ body {
     left: 0;
     top: 4.5rem;
 }
+.btnMoreCels{
+    border: 1px solid grey;
+    padding: 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    justify-content: center;
+}
+.containBtnMoreCells{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
