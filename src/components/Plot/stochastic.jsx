@@ -9,11 +9,11 @@ const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 // Adapted calculation for sensor data
 const calculateSensorOscillator = (data, period = 14, smoothing = 3) => {
     if (!data || data.length === 0) return [];
-    const values = data.map(d=>d.value);
-    const timestamps = data.map(d=>d.date);
+    
+    const timestamps = data.map(d=>d.launchdate);
     const kValues = [];
     const dValues = [];
-
+	
     // For %K, use the pre-calculated min/max in period or re-calculate dynamically
     // For simplicity, let's assume min_in_period and max_in_period are provided or can be calculated
     for (let i = 0; i < data.length; i++) {
@@ -36,10 +36,10 @@ const calculateSensorOscillator = (data, period = 14, smoothing = 3) => {
         const d = sumK / smoothing;
         dValues.push(d);
     }
-
+	
     // Align timestamps for %D
     const alignedTimestamps = timestamps.slice(smoothing - 1); // Note: Simplified for this example, ensure correct indexing
-
+	
     return alignedTimestamps.map((ts, index) => ({
         timestamp: ts,
         k: kValues[index + (smoothing - 1)],
@@ -116,7 +116,7 @@ export default function SensorOscillatorPlot({ sensorData }) {
     }
 
     return (
-        <footer style={{ width: '100%', height: '400px' }}>
+        <footer className="flex-2" style={{ width: '100%', height: '400px' }}>
             <h2>{'Stochastic'}</h2>
 	        <Plot
                 data={plotData}

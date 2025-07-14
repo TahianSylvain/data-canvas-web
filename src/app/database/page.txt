@@ -22,123 +22,186 @@ import SensorOscillatorPlot from '@/components/Plot/stochastic';
 */}
 
 const soilMoistureDataset = {
-  "errors": [],
-  "result": [
-      {
-          "id": 1,
-          "view_id": "soilmoisture/sm_250m_20230601_usa",
-          "launchdate": "2023-06-01",
-          "max": 21.0,
-	  "average": 20.55,
-          "min": 20.1,
-          "launchname": "Veneris-A1",
-          "features": "Clay Loam",
-          "status": "Completed",
-          "task": "rotation_b227",
-      },
-      {
-          "id": 2,
-          "view_id": "soilmoisture/sm_250m_20230602_usa",
-          "launchdate": "2023-06-02",
-          "max": 22.8,
-	  "average": 21.88,
-          "min": 20.7,
-          "launchname": "Sentinel-B1",
-          "features": "Montain",
-          "status": "Completed",
-          "task": "rotation_b228",
-      },
-      {
-          "id": 3,
-          "view_id": "soilmoisture/sm_250m_20230603_usa",
-          "launchdate": "2023-06-03",
-          "max": 23.1,
-		"average": 22.0,
-          "min": 21.5,
-          "launchname": "Veneris-A2",
-          "features": "Clay Loam",
-          "status": "Completed",
-          "task": "rotation_b229",
-      },
-      {
-          "id": 4,
-          "view_id": "soilmoisture/sm_250m_20230604_usa",
-          "launchdate": "2023-06-04",
-          "max": 21.9,
-		"average": 21.01, 
-          "min": 20.0,
-          "launchname": "Sentinel-B2",
-          "features": "Montain",
-          "status": "In Progress",
-          "task": "rotation_B230"
-      },
-      {
-          "id": 5,
-          "view_id": "soilmoisture/sm_250m_20230605_usa",
-          "launchdate": "2023-06-05",
-          "max": 23.1,
-		"average": 22.7,
-          "min": 21.5,
-          "launchname": "Veneris-A2",
-          "features": "Clay Loam",
-          "status": "Completed",
-          "task": "rotation_b229",
-      },
-      {
-          "id": 6,
-          "view_id": "soilmoisture/sm_250m_20230606_usa",
-          "launchdate": "2023-06-06",
-          "max": 21.8,
-		"average": 20.56, 
-          "min": 20.2,
-          "launchname": "Sentinel-B2",
-          "features": "Montain",
-          "status": "In Progress",
-          "task": "rotation_B230"
-      },
+    "errors": [],
+    "result": [
+        {
+            "id": 1,
+            "view_id": "soilmoisture/sm_250m_20230601_usa",
+            "launchdate": "2023-06-01",
+            "max": 21.0,
+            "min": 20.1,
+            "std": 0.29,
+            "median": 20.8,
+            "average": 20.70,
+            "variance": 0.88,
+        },
+        {
+            "id": 2,
+            "view_id": "soilmoisture/sm_250m_20230602_usa",
+            "launchdate": "2023-06-02",
+            "max": 21.8,
+            "min": 20.7,
+            "std": 0.35,
+            "median": 21.2,
+            "average": 21.30,
+            "variance": 0.12,
+        },
+        {
+            "id": 3,
+            "view_id": "soilmoisture/sm_250m_20230603_usa",
+            "launchdate": "2023-06-03",
+            "max": 21.5,
+            "min": 20.5,
+            "std": 0.28,
+            "median": 21.0,
+            "average": 21.10,
+            "variance": 0.08,
+        },
+        {
+            "id": 4,
+            "view_id": "soilmoisture/sm_250m_20230604_usa",
+            "launchdate": "2023-06-04",
+            "max": 21.2,
+            "min": 20.3,
+            "std": 0.25,
+            "median": 20.8,
+            "average": 20.90,
+            "variance": 0.07,
+        },
+        {
+            "id": 5,
+            "view_id": "soilmoisture/sm_250m_20230605_usa",
+            "launchdate": "2023-06-05",
+            "max": 21.9,
+            "min": 20.8,
+            "std": 0.33,
+            "median": 21.4,
+            "average": 21.50,
+            "variance": 0.11,
+        },
+        {
+            "id": 6,
+            "view_id": "soilmoisture/sm_250m_20230606_usa",
+            "launchdate": "2023-06-06",
+            "max": 22.8,
+            "min": 21.7,
+            "std": 0.38,
+            "median": 22.3,
+            "average": 22.40,
+            "variance": 0.14,
+        },
+        {
+            "id": 7,
+            "view_id": "soilmoisture/sm_250m_20230607_usa",
+            "launchdate": "2023-06-07",
+            "max": 23.3,
+            "min": 22.2,
+            "std": 0.36,
+            "median": 22.8,
+            "average": 22.90,
+            "variance": 0.13,
+        },
+        {
+            "id": 8,
+            "view_id": "soilmoisture/sm_250m_20230608_usa",
+            "launchdate": "2023-06-08",
+            "max": 23.6,
+            "min": 22.5,
+            "std": 0.34,
+            "median": 23.1,
+            "average": 23.20,
+            "variance": 0.12,
+        },
+        {
+            "id": 9,
+            "view_id": "soilmoisture/sm_250m_20230609_usa",
+            "launchdate": "2023-06-09",
+            "max": 23.8,
+            "min": 22.7,
+            "std": 0.35,
+            "median": 23.3,
+            "average": 23.40,
+            "variance": 0.13,
+        },
+        {
+            "id": 10,
+            "view_id": "soilmoisture/sm_250m_20230610_usa",
+            "launchdate": "2023-06-10",
+            "max": 23.7,
+            "min": 22.6,
+            "std": 0.32,
+            "median": 23.2,
+            "average": 23.30,
+            "variance": 0.11,
+        },
+        {
+            "id": 11,
+            "view_id": "soilmoisture/sm_250m_20230611_usa",
+            "launchdate": "2023-06-11",
+            "max": 23.2,
+            "min": 22.1,
+            "std": 0.29,
+            "median": 22.7,
+            "average": 22.80,
+            "variance": 0.09,
+        }
     ]
-  };
-const defaultData = soilMoistureDataset.result;
+};
+
+
+//const defaultData = soilMoistureDataset.result;
+const defaultData = [
+   {
+     id: 1,
+     task: "Develop feature A",
+     status: "In Progress",
+     features: "User authentication",
+     description: "Implement JWT authentication for users",
+     launchdate: "2025-04-15",
+     owner: 23.65,
+     launchname: "Spring Release",
+   },
+]
 //   {
 //     id: 2,
 //     task: "Bug Fix #234",
 //     status: "Completed",
-//     taskfea"rotation_"tures: "UI Improvements",
-//     status"Completed"cription: "Fix the alignment issue on the dashboard",
-//     tasklau"rotation_"nchdate: "2025-03-28",
+//     features: "UI Improvements",
+//     description: "Fix the alignment issue on the dashboard",
+//     launchdate: "2025-03-28",
 //     owner: "Jane Smith",
 //     launchname: "March Patch",
-//   },features
-//"Claystatus Lo"Completed"am"   {
+//   },
+//   {
 //     id: 3,
 //     task: "Optimize Database Queries",
 //     status: "Pending",
-//     taskfea"rotation_"tures: "Performance",
-//     status"Completed"cription: "Improve SQL queries for faster response time",
-//     tasklau"rotation_"nchdate: "2025-05-10",
+//     features: "Performance",
+//     description: "Improve SQL queries for faster response time",
+//     launchdate: "2025-05-10",
 //     owner: "Alice Johnson",
 //     launchname: "Performance Update",
-//   },features
-//"Claystatus Lo"Completed"am"   {
+//   },
+//   {
 //     id: 4,
 //     task: "Add Dark Mode",
 //     status: "In Progress",
-//     taskfea"rotation_"tures: "User Experience",
-//     status"Completed"cription: "Implement dark mode toggle for better usability",
-//     tasklau"rotation_"nchdate: "2025-04-20",
+//     features: "User Experience",
+//     description: "Implement dark mode toggle for better usability",
+//     launchdate: "2025-04-20",
 //     owner: "Bob Williams",
 //     launchname: "UI Update",
-//   },features
+//   },
+// ];
 
 const defaultColumns = [
   { accessorKey: "launchname", header: "Launch name", cell: EditableCell },
   { accessorKey: "launchdate", header: "Launch date", cell: DateCell },
-  { accessorKey: "view_id", header: "View id", cell: EditableCell },
+  { accessorKey: "owner", header: "Owner", cell: EditableCell },
   { accessorKey: "task", header: "Task", cell: EditableCell },
   { accessorKey: "status", header: "Status", cell: SelectCell, options: ["Active", "Inactive", "Pending"] },
   { accessorKey: "features", header: "Features", cell: EditableCell },
-  { accessorKey: "max", header: "Max", cell: EditableCell },
-  { accessorKey: "min", header: "Min", cell: EditableCell },
+  { accessorKey: "description", header: "Description", cell: EditableCell },
 ];
 
 
@@ -147,7 +210,7 @@ export default function Spreadsheet() {
   const [tables, setTables] = useState([
   {
     id: 1,
-    name: "Tableau EOSDA",
+    name: "Tableau 1",
     columns: defaultColumns,
     data: defaultData.map((row, i) => ({ ...row, id: i + 1 })),
   },
@@ -236,7 +299,7 @@ const activeTable = tables.find(t => t.id === activeTableId);
 return(
   <>
     <Header />
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen" style={{display: 'flex', flex-direction: 'column'}}>
       {/* Menu à gauche */}
       <div className="w-64 bg-gray-100 p-4 border-r border-gray-300">
         <h2 className="text-lg font-semibold mb-4">Tables</h2>
@@ -296,7 +359,7 @@ return(
       </div>
 
       {/* Tableau actif */}
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6" style={{margin-bottom: '10px'}}>
         <h1 className="text-2xl font-bold mb-4">{activeTable?.name}</h1>
         {activeTable && (
           <EditableTable
@@ -306,7 +369,8 @@ return(
             setColumns={(newCols) => setTableColumns(activeTable.id, newCols)}
           />
         )}
-      </div></div>
+      </div>
 	    < SensorOscillatorPlot sensorData={defaultData} />
+    </div>
   </>
 )};
