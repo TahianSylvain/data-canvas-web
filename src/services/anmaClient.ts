@@ -259,7 +259,19 @@ export async function getNotebooks(workspaceId: number, token: string) {
   });
 }
 
-export async function updateNotebook(workspaceId: number, slug: string, dto: CreateNotebookDto, token: string) {
+export async function getNotebook(workspaceId: number, slug: string, token: string) {
+  return await fetch(`${BASE_URL}/workspaces/${workspaceId}/notebooks/${slug}`, {
+    method: 'GET',
+    headers: authHeader(token),
+  });
+}
+
+export async function updateNotebook(
+  workspaceId: number,
+  slug: string,
+  dto: { Name: string; Content: string },
+  token: string,
+) {
   return await fetch(`${BASE_URL}/workspaces/${workspaceId}/notebooks/${slug}`, {
     method: 'PUT',
     headers: authHeader(token),

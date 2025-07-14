@@ -5,7 +5,13 @@ import { useParams } from 'next/navigation';
 import { useAppStore } from '@/services/store';
 import Header from '@/components/header/header';
 import Sidebar from '@/components/sidebar/sidebar';
-import { getDatabase, getTables, createTable, getTable, updateTable } from '@/services/anmaClient';
+import {
+  getDatabase,
+  getTables,
+  createTable,
+  getTable,
+  updateTable,
+} from '@/services/anmaClient';
 import type { TableEntity, DatabaseEntity } from '@/services/anmaClient';
 import PopupForm from '@/components/PopupForm';
 import EditableTable from '@/components/EditableTable';
@@ -20,20 +26,23 @@ export default function DatabasePage() {
   const [database, setDatabase] = useState<DatabaseEntity | null>(null);
   const [tables, setTables] = useState<TableEntity[]>([]);
   const [showCreatePopup, setShowCreatePopup] = useState(false);
+  const [tablesMap, setTablesMap] = useState<Record<string, TableEntity>>({});
 
   useEffect(() => {
-    if (!token || !currentWorkspace || typeof dbSlug !== 'string') {
-      console.warn('⛔ Token, workspace ou dbSlug manquant');
-      return;
-    }
+    if (!token || !currentWorkspace || typeof dbSlug !== 'string') return;
 
     getDatabase(currentWorkspace.id, dbSlug, token)
       .then(db => setDatabase(db))
-      .catch(err => console.error('❌ Erreur lors de la récupération de la base :', err));
+      .catch(console.error);
 
     getTables(currentWorkspace.id, dbSlug, token)
-      .then(tables => setTables(tables))
-      .catch(err => console.error('❌ Erreur lors de la récupération des tables :', err));
+      .then(tables => {
+        setTables(tables);
+        const map: Record<string, TableEntity> = {};
+        tables.forEach(t => map[t.slug!] = t);
+        setTablesMap(map);
+      })
+      .catch(console.error);
   }, [token, currentWorkspace, dbSlug]);
 
   const handleTableClick = async (table: TableEntity) => {
@@ -42,24 +51,16 @@ export default function DatabasePage() {
       const fullTable = await getTable(currentWorkspace.id, dbSlug, table.slug, token);
       const parsed = JSON.parse(fullTable.columnsJson || '{}');
 
-      // Correction : rows = parsed.__rows ou bien construire à partir des colonnes
-      let rows: any[] = [];
-      if (Array.isArray(parsed.__rows)) {
-        rows = parsed.__rows;
-      } else {
-        const colKeys = Object.keys(parsed);
-        const rowCount = colKeys.length ? (parsed[colKeys[0]].value?.length || 0) : 0;
-        rows = Array.from({ length: rowCount }, (_, i) => {
-          const row: any = {};
-          for (const key of colKeys) {
-            row[key] = parsed[key].value?.[i] ?? '';
-          }
-          return row;
-        });
+      const rowCount = parsed.__rows?.length || 0;
+      for (const key of Object.keys(parsed)) {
+        if (key === '__rows') continue;
+        if (!Array.isArray(parsed[key].value)) {
+          parsed[key].value = Array.from({ length: rowCount }, () => parsed[key].value ?? '');
+        }
       }
 
-      setSelectedTable({ ...fullTable });
-      setTableRows(rows);
+      setSelectedTable({ ...fullTable, columnsJson: JSON.stringify(parsed) });
+      setTableRows(parsed.__rows || []);
     } catch (err) {
       console.error('❌ Erreur lors du chargement de la table :', err);
     }
@@ -70,10 +71,14 @@ export default function DatabasePage() {
     try {
       const parsed = JSON.parse(columnsJson);
       parsed.__rows = rows;
+
       const updated = await updateTable(currentWorkspace.id, dbSlug, selectedTable.slug, {
         columnsJson: JSON.stringify(parsed),
       }, token);
-      setSelectedTable({ ...updated });
+
+      const updatedParsed = JSON.parse(updated.columnsJson || '{}');
+      setSelectedTable({ ...updated, columnsJson: JSON.stringify(updatedParsed) });
+      setTableRows(updatedParsed.__rows || []);
     } catch (err) {
       console.error('❌ Erreur lors de la sauvegarde de la table :', err);
     }
@@ -82,38 +87,44 @@ export default function DatabasePage() {
   const sidebarContent = {
     createSections: [
       {
+        id: 'new-table-btn',
         label: 'New Table',
         bgColor: '#3B82F6',
         onClick: () => setShowCreatePopup(true),
-      }
+      },
     ],
     otherSections: [
       {
+        id: 'tables-section',
         section_title: 'Tables',
         section_content: tables.map(table => ({
+          id: `table-link-${table.slug}`,
           label: table.name || 'Untitled',
           onClick: () => handleTableClick(table),
         })),
-      }
-    ]
+      },
+    ],
   };
 
   return (
-    <div className="flex flex-col min-h-screen min-w-screen">
+    <div className="flex flex-col min-h-screen min-w-screen" id="database-page-root">
       <Header />
       <div className="flex flex-grow">
         <Sidebar {...sidebarContent} />
         <main className="p-6 w-full">
-          <h1 className="text-2xl font-bold mb-4">{database?.name || 'Loading...'}</h1>
+          <h1 id="database-title" className="text-2xl font-bold mb-4">
+            {database?.name || 'Loading...'}
+          </h1>
           {selectedTable && (
-            <div className="mt-6">
+            <div className="mt-6" id="table-editor">
               <EditableTable
-                key={selectedTable.id + '-' + (selectedTable.updatedAt ?? '')}
+                key={selectedTable.id + '-' + selectedTable.updatedAt}
                 table={selectedTable}
                 dbSlug={dbSlug}
                 rows={tableRows}
                 onRowsChange={setTableRows}
                 onSave={handleSaveTable}
+                tablesMap={tablesMap}
               />
             </div>
           )}
@@ -128,8 +139,17 @@ export default function DatabasePage() {
           try {
             if (!token || !currentWorkspace || typeof dbSlug !== 'string') return;
 
+            const initialColumns = {
+              id: {
+                type: 'number',
+                value: [],
+                options: { autoIncrement: true }
+              }
+            };
+
             const newTable = await createTable(currentWorkspace.id, dbSlug, {
               name: data.name,
+              columnsJson: JSON.stringify(initialColumns),
             }, token);
 
             setTables(prev => [...prev, newTable]);
@@ -139,7 +159,7 @@ export default function DatabasePage() {
             setShowCreatePopup(false);
           }
         }}
-        fields={[{ label: 'Name', name: 'name', type: 'text' }]}
+        fields={[{ id: 'table-name-input', label: 'Name', name: 'name', type: 'text' }]}
       />
     </div>
   );
