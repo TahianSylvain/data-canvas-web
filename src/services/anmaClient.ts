@@ -1,4 +1,4 @@
-export const BASE_URL = process.env.NEXT_PUBLIC_API_URL; 
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export function authHeader(token: string) {
   return {
@@ -72,7 +72,7 @@ export interface DatabaseEntity {
 
 export interface CreateNotebookDto {
   name?: string;
-  content?: string | null; 
+  content?: string | null;
 }
 
 export interface NotebookEntity {
@@ -100,12 +100,12 @@ export interface TableEntity {
 
 export interface ExecuteCodeDto {
   input?: string;
-  output: []; 
+  output: [];
 }
 
 
 // auth
- export async function login(username: string, password: string) {
+export async function login(username: string, password: string) {
   return await fetchJSON<AuthResponse>(`${BASE_URL}/Auth`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -222,12 +222,19 @@ export async function getTable(workspaceId: number, dbSlug: string, tableSlug: s
 }
 
 export async function updateTable(workspaceId: number, dbSlug: string, tableSlug: string, dto: CreateTableDto, token: string) {
-  return await fetch(`${BASE_URL}/workspaces/${workspaceId}/databases/${dbSlug}/tables/${tableSlug}`, {
+  const response = await fetch(`${BASE_URL}/workspaces/${workspaceId}/databases/${dbSlug}/tables/${tableSlug}`, {
     method: 'PUT',
     headers: authHeader(token),
     body: JSON.stringify(dto),
   });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json(); // <-- IMPORTANT pour récupérer l'objet TableEntity !
 }
+
 
 export async function deleteTable(workspaceId: number, dbSlug: string, tableSlug: string, token: string) {
   return await fetch(`${BASE_URL}/workspaces/${workspaceId}/databases/${dbSlug}/tables/${tableSlug}`, {

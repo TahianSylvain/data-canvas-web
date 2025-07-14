@@ -6,7 +6,7 @@ type Field = {
   label: string;
   name: string;
   type: 'text' | 'color' | 'select' | 'icon';
-  options?: string[] | { name: string; icon: JSX.Element }[]; // pour 'icon'
+  options?: string[] | { name: string; icon: JSX.Element }[];
 };
 
 interface PopupFormProps {
@@ -38,6 +38,7 @@ export default function PopupForm({ visible, title, fields, onSubmit, onCancel }
           {fields.map((field) => (
             <div key={field.name}>
               <label className="block mb-1 font-medium">{field.label}</label>
+
               {field.type === 'text' && (
                 <input
                   className="w-full border px-3 py-2 rounded"
@@ -46,26 +47,30 @@ export default function PopupForm({ visible, title, fields, onSubmit, onCancel }
                   onChange={(e) => handleChange(field.name, e.target.value)}
                 />
               )}
+
               {field.type === 'select' && (
-                <div className="flex flex-wrap gap-2">
-                  {field.options?.map((opt) => (
-                    <button
-                      key={opt}
-                      className={`w-8 h-8 rounded-full border-2 ${formData[field.name] === opt ? 'border-black' : 'border-gray-300'}`}
-                      style={{ backgroundColor: opt }}
-                      onClick={() => handleChange(field.name, opt)}
-                    />
-                  ))}
-                </div>
+                <select
+                  name={field.name}
+                  value={formData[field.name] || ''}
+                  onChange={(e) => handleChange(field.name, e.target.value)}
+                  className="w-full border px-3 py-2 rounded"
+                >
+                  <option value="">-- Choose --</option>
+                  {field.options?.map(opt =>
+                    typeof opt === 'string'
+                      ? <option key={opt} value={opt}>{opt}</option>
+                      : null // on ne traite que les strings ici
+                  )}
+                </select>
               )}
+
               {field.type === 'icon' && Array.isArray(field.options) && (
                 <div className="flex gap-3 flex-wrap">
                   {(field.options as { name: string; icon: JSX.Element }[]).map((opt) => (
                     <button
                       key={opt.name}
                       onClick={() => handleChange(field.name, opt.name)}
-                      className={`p-2 border rounded-lg hover:bg-gray-100 ${formData[field.name] === opt.name ? 'border-black' : 'border-gray-300'
-                        }`}
+                      className={`p-2 border rounded-lg hover:bg-gray-100 ${formData[field.name] === opt.name ? 'border-black' : 'border-gray-300'}`}
                     >
                       {opt.icon}
                     </button>

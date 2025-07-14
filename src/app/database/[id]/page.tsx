@@ -5,20 +5,18 @@ import { useParams } from 'next/navigation';
 import { useAppStore } from '@/services/store';
 import Header from '@/components/header/header';
 import Sidebar from '@/components/sidebar/sidebar';
-import { getDatabase, getTables, createTable, getTable } from '@/services/anmaClient';
+import { getDatabase, getTables, createTable, getTable, updateTable } from '@/services/anmaClient';
 import type { TableEntity, DatabaseEntity } from '@/services/anmaClient';
 import PopupForm from '@/components/PopupForm';
-import { useRouter } from 'next/navigation';
-
+import EditableTable from '@/components/EditableTable';
 
 export default function DatabasePage() {
   const dbSlug = (useParams()).id + "";
-  console.log(dbSlug)
   const token = useAppStore(state => state.token);
   const currentWorkspace = useAppStore(state => state.currentWorkspace);
-  console.log(currentWorkspace)
-  const [selectedTable, setSelectedTable] = useState<TableEntity | null>(null);
 
+  const [selectedTable, setSelectedTable] = useState<TableEntity | null>(null);
+  const [tableRows, setTableRows] = useState<any[]>([]);
   const [database, setDatabase] = useState<DatabaseEntity | null>(null);
   const [tables, setTables] = useState<TableEntity[]>([]);
   const [showCreatePopup, setShowCreatePopup] = useState(false);
@@ -29,32 +27,64 @@ export default function DatabasePage() {
       return;
     }
 
-    console.log('📥 Chargement de la base de données avec slug :', dbSlug);
-
     getDatabase(currentWorkspace.id, dbSlug, token)
-      .then(db => {
-        console.log('✅ Base de données récupérée :', db);
-        setDatabase(db);
-      })
+      .then(db => setDatabase(db))
       .catch(err => console.error('❌ Erreur lors de la récupération de la base :', err));
 
     getTables(currentWorkspace.id, dbSlug, token)
-      .then(tables => {
-        console.log(`✅ ${tables.length} tables récupérées :`, tables);
-        setTables(tables);
-      })
+      .then(tables => setTables(tables))
       .catch(err => console.error('❌ Erreur lors de la récupération des tables :', err));
   }, [token, currentWorkspace, dbSlug]);
+
+  const handleTableClick = async (table: TableEntity) => {
+    try {
+      if (!token || !currentWorkspace || !table.slug) return;
+      const fullTable = await getTable(currentWorkspace.id, dbSlug, table.slug, token);
+      const parsed = JSON.parse(fullTable.columnsJson || '{}');
+
+      // Correction : rows = parsed.__rows ou bien construire à partir des colonnes
+      let rows: any[] = [];
+      if (Array.isArray(parsed.__rows)) {
+        rows = parsed.__rows;
+      } else {
+        const colKeys = Object.keys(parsed);
+        const rowCount = colKeys.length ? (parsed[colKeys[0]].value?.length || 0) : 0;
+        rows = Array.from({ length: rowCount }, (_, i) => {
+          const row: any = {};
+          for (const key of colKeys) {
+            row[key] = parsed[key].value?.[i] ?? '';
+          }
+          return row;
+        });
+      }
+
+      setSelectedTable({ ...fullTable });
+      setTableRows(rows);
+    } catch (err) {
+      console.error('❌ Erreur lors du chargement de la table :', err);
+    }
+  };
+
+  const handleSaveTable = async (columnsJson: string, rows: any[]) => {
+    if (!token || !currentWorkspace || !selectedTable?.slug) return;
+    try {
+      const parsed = JSON.parse(columnsJson);
+      parsed.__rows = rows;
+      const updated = await updateTable(currentWorkspace.id, dbSlug, selectedTable.slug, {
+        columnsJson: JSON.stringify(parsed),
+      }, token);
+      setSelectedTable({ ...updated });
+    } catch (err) {
+      console.error('❌ Erreur lors de la sauvegarde de la table :', err);
+    }
+  };
 
   const sidebarContent = {
     createSections: [
       {
         label: 'New Table',
         bgColor: '#3B82F6',
-        onClick: () => {
-          console.log('🖱️ Bouton "New Table" cliqué');
-          setShowCreatePopup(true);
-        },
+        onClick: () => setShowCreatePopup(true),
       }
     ],
     otherSections: [
@@ -62,17 +92,7 @@ export default function DatabasePage() {
         section_title: 'Tables',
         section_content: tables.map(table => ({
           label: table.name || 'Untitled',
-          onClick: async () => {
-            console.log(`📋 Table cliquée : ${table.slug}`);
-            try {
-              if (!token || !currentWorkspace || !table.slug) {console.log("Donnée manquante"); return};
-              const fullTable = await getTable(currentWorkspace.id, dbSlug, table.slug, token);
-              console.log('✅ Table chargée :', fullTable);
-              setSelectedTable(fullTable);
-            } catch (err) {
-              console.error('❌ Erreur lors du chargement de la table :', err);
-            }
-          }
+          onClick: () => handleTableClick(table),
         })),
       }
     ]
@@ -85,32 +105,33 @@ export default function DatabasePage() {
         <Sidebar {...sidebarContent} />
         <main className="p-6 w-full">
           <h1 className="text-2xl font-bold mb-4">{database?.name || 'Loading...'}</h1>
-          <p className="text-gray-600">Slug: {dbSlug}</p>
-          <p className="text-gray-600">Tables: {tables.length}</p>
+          {selectedTable && (
+            <div className="mt-6">
+              <EditableTable
+                key={selectedTable.id + '-' + (selectedTable.updatedAt ?? '')}
+                table={selectedTable}
+                dbSlug={dbSlug}
+                rows={tableRows}
+                onRowsChange={setTableRows}
+                onSave={handleSaveTable}
+              />
+            </div>
+          )}
         </main>
       </div>
 
       <PopupForm
         visible={showCreatePopup}
         title="Create Table"
-        onCancel={() => {
-          console.log('❌ Création annulée');
-          setShowCreatePopup(false);
-        }}
+        onCancel={() => setShowCreatePopup(false)}
         onSubmit={async (data) => {
-          console.log('📤 Tentative de création de table avec data :', data);
-
           try {
-            if (!token || !currentWorkspace || typeof dbSlug !== 'string') {
-              console.warn('⛔ Impossible de créer la table : informations manquantes');
-              return;
-            }
+            if (!token || !currentWorkspace || typeof dbSlug !== 'string') return;
 
             const newTable = await createTable(currentWorkspace.id, dbSlug, {
               name: data.name,
             }, token);
 
-            console.log('✅ Table créée avec succès :', newTable);
             setTables(prev => [...prev, newTable]);
           } catch (err) {
             console.error('❌ Erreur lors de la création de la table :', err);
@@ -118,9 +139,7 @@ export default function DatabasePage() {
             setShowCreatePopup(false);
           }
         }}
-        fields={[
-          { label: 'Name', name: 'name', type: 'text' },
-        ]}
+        fields={[{ label: 'Name', name: 'name', type: 'text' }]}
       />
     </div>
   );
