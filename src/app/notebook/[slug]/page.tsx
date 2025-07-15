@@ -13,9 +13,10 @@ import {
 import { useAppStore } from '@/services/store';
 import Header from '@/components/header/header';
 import { useParams } from 'next/navigation';
-import AnsiToHtml from 'ansi-to-html';
 
-const ansiConverter = new AnsiToHtml();
+import { AnsiUp } from 'ansi_up';
+
+const ansiUp = new AnsiUp();
 
 interface OutputItem {
   type: 'text' | 'image' | 'error';
@@ -57,6 +58,7 @@ export default function NotebookPage() {
         console.log('📥 Notebook data received:', data);
 
         setNotebookName(data.name || 'Untitled Notebook');
+        data.content = JSON.parse(data.content)
 
         if (Array.isArray(data.content)) {
           setCells(data.content);
@@ -194,13 +196,40 @@ export default function NotebookPage() {
                 extensions={[python()]}
                 onChange={(val) => handleCodeChange(idx, val)}
               />
-              <div className="mt-2 bg-gray-50 p-3 rounded border min-h-[50px] max-h-96 overflow-auto">
+              <div className="mt-2 bg-gray-50 p-3 rounded border min-h-[50px] overflow-x-auto overflow-y-visible">
                 {cell.outputs.length === 0 ? <em>No output</em> : cell.outputs.map((out, i) => {
                   if (out.type === 'image') {
-                    return <img key={i} src={`data:image/png;base64,${out.value}`} alt="Output" className="max-w-full" />;
+                    return (
+                      <img
+                        key={i}
+                        src={`data:image/png;base64,${out.value}`}
+                        alt="Output"
+                        className="max-w-full rounded shadow"
+                      />
+                    );
                   }
-                  const html = ansiConverter.toHtml(out.value);
-                  return <pre key={i} className="whitespace-pre-wrap text-sm font-mono text-gray-800" dangerouslySetInnerHTML={{ __html: html }} />;
+
+                  if (out.type === 'error') {
+                    const html = ansiUp.ansi_to_html(out.value);
+                    return (
+                      <pre
+                        key={i}
+                        className="bg-red-100 text-red-800 p-2 rounded font-mono text-sm whitespace-pre-wrap"
+                        dangerouslySetInnerHTML={{ __html: html }}
+                      />
+                    );
+                  }
+
+                  // === ici on utilise ansi_up pour un rendu ANSI correct ===
+                  const html = ansiUp.ansi_to_html(out.value);
+                  console.log(out)
+                  return (
+                    <pre
+                      key={i}
+                      className="whitespace-pre-wrap text-sm font-mono text-gray-800"
+                      dangerouslySetInnerHTML={{ __html: html }}
+                    />
+                  );
                 })}
               </div>
               <div className="flex justify-end gap-3 mt-3">

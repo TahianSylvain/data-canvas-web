@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link"; // <== importe Link
 import { ReactNode } from "react";
 import { FaBars, FaRegUser } from "react-icons/fa6";
 import { LogoutButton } from "../buttons/logoutButton";
@@ -8,14 +9,17 @@ type PropsType = {
 }
 
 export default function Header({ children }: PropsType) {
-
 	if (!children) {
-		children = <h1>
-			<Image src={"/logo.png"} width={110} height={32} alt="logo" className="" />
-		</h1>
+		children = (
+			<h1>
+				<Link href="/">
+					<Image src="/logo.png" width={110} height={32} alt="logo" className="cursor-pointer" />
+				</Link>
+			</h1>
+		);
 	}
 
-	return <>
+	return (
 		<div className="w-full h-max flex items-center justify-between px-6 py-4 border-b border-borderColor bg-foreground">
 			<div className="flex items-center justify-between gap-8">
 				<button>
@@ -27,8 +31,9 @@ export default function Header({ children }: PropsType) {
 				<div className="bg-[#6368C7] rounded-full p-2 mr-4">
 					<FaRegUser size={18} className="text-white" />
 				</div>
-				<LogoutButton></LogoutButton>
+				<LogoutButton />
 			</div>
 		</div>
-	</>
+	);
 }
+
